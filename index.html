@@ -3,158 +3,684 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APK Hub - Free Apps & Games</title>
+
+  <title>APK Hub - Apps & Games</title>
+
+  <meta
+    name="description"
+    content="APK Hub - Discover apps and games in one place."
+  >
 
   <style>
+    :root {
+      --bg: #070a0f;
+      --card: #11161e;
+      --card-hover: #171e28;
+      --border: #222b36;
+      --text: #f5f7fa;
+      --muted: #8d98a7;
+      --green: #35e879;
+      --green-dark: #20b85a;
+      --blue: #5b8cff;
+      --orange: #ff9d42;
+      --danger: #ff5f6d;
+    }
+
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background: #0f1115;
-      color: white;
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(53, 232, 121, 0.08), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(91, 140, 255, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
 
-    header {
-      background: #171a21;
-      padding: 18px 6%;
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(7, 10, 15, 0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav {
+      max-width: 1250px;
+      margin: auto;
+      min-height: 72px;
+      padding: 0 22px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #292d36;
+      justify-content: space-between;
+      gap: 30px;
     }
 
     .logo {
-      font-size: 25px;
-      font-weight: bold;
-      color: #4ade80;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 23px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
 
-    nav a {
-      color: #ddd;
-      text-decoration: none;
-      margin-left: 20px;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 70px 20px;
-      background: linear-gradient(135deg, #151922, #0d1117);
-    }
-
-    .hero h1 {
-      font-size: 45px;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      color: #aaa;
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
-
-    .search {
-      width: 90%;
-      max-width: 600px;
-      padding: 15px 20px;
-      border-radius: 30px;
-      border: 1px solid #333;
-      background: #1c2028;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 40px auto;
-    }
-
-    .section-title {
-      margin-bottom: 25px;
-      font-size: 28px;
-    }
-
-    .apps {
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      place-items: center;
+      background: linear-gradient(135deg, var(--green), #1bb95b);
+      color: #041008;
+      font-size: 21px;
+      box-shadow: 0 8px 25px rgba(53, 232, 121, 0.18);
     }
 
-    .app-card {
-      background: #181b22;
-      border: 1px solid #292d36;
-      border-radius: 15px;
-      padding: 20px;
+    .logo span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: #aeb8c5;
+      font-size: 14px;
+      font-weight: 600;
       transition: 0.2s;
     }
 
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-download {
+      padding: 10px 17px;
+      border-radius: 10px;
+      background: rgba(53, 232, 121, 0.1);
+      color: var(--green) !important;
+      border: 1px solid rgba(53, 232, 121, 0.2);
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      max-width: 1250px;
+      margin: auto;
+      padding: 85px 22px 60px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 13px;
+      border-radius: 30px;
+      background: rgba(53, 232, 121, 0.08);
+      border: 1px solid rgba(53, 232, 121, 0.18);
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 {
+      max-width: 850px;
+      margin: auto;
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -3px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--green), #7cffac);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* SEARCH */
+
+    .search-wrapper {
+      max-width: 720px;
+      margin: 35px auto 0;
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      opacity: 0.65;
+    }
+
+    .search {
+      width: 100%;
+      height: 58px;
+      padding: 0 20px 0 54px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      outline: none;
+      background: rgba(17, 22, 30, 0.95);
+      color: white;
+      font-size: 15px;
+      transition: 0.2s;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .search::placeholder {
+      color: #697584;
+    }
+
+    .search:focus {
+      border-color: rgba(53, 232, 121, 0.5);
+      box-shadow: 0 0 0 4px rgba(53, 232, 121, 0.06);
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      max-width: 850px;
+      margin: 0 auto 65px;
+      padding: 0 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .stat {
+      background: rgba(17, 22, 30, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .container {
+      max-width: 1250px;
+      margin: auto;
+      padding: 0 22px 80px;
+    }
+
+    .section {
+      margin-bottom: 60px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      margin-bottom: 22px;
+      gap: 20px;
+    }
+
+    .section-heading h2 {
+      font-size: 27px;
+      letter-spacing: -0.5px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 5px;
+    }
+
+    .view-all {
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+      scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category {
+      flex: 0 0 auto;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: #10151c;
+      color: #aab4c1;
+      border-radius: 30px;
+      padding: 11px 18px;
+      transition: 0.2s;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .category:hover,
+    .category.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: #041008;
+      transform: translateY(-1px);
+    }
+
+    /* =========================
+       FEATURED CARD
+    ========================= */
+
+    .featured {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      padding: 28px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 90% 20%, rgba(53, 232, 121, 0.12), transparent 35%),
+        linear-gradient(135deg, #111821, #0d1219);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .featured-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .featured-label {
+      display: inline-block;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .featured h2 {
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .featured p {
+      color: var(--muted);
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    .featured-button {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 20px;
+      padding: 12px 20px;
+      border-radius: 11px;
+      background: var(--green);
+      color: #041008;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .featured-art {
+      min-height: 220px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(53, 232, 121, 0.25), transparent 35%),
+        #0b1016;
+      border: 1px solid #202a35;
+      display: grid;
+      place-items: center;
+      font-size: 100px;
+    }
+
+    /* =========================
+       APP GRID
+    ========================= */
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .app-card {
+      background: rgba(17, 22, 30, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 17px;
+      transition:
+        transform 0.25s,
+        border-color 0.25s,
+        background 0.25s;
+    }
+
     .app-card:hover {
-      transform: translateY(-4px);
-      border-color: #4ade80;
+      transform: translateY(-5px);
+      border-color: rgba(53, 232, 121, 0.35);
+      background: var(--card-hover);
+    }
+
+    .app-top {
+      display: flex;
+      align-items: center;
+      gap: 13px;
     }
 
     .app-icon {
-      width: 70px;
-      height: 70px;
-      background: #252a33;
+      width: 62px;
+      height: 62px;
+      flex: 0 0 62px;
       border-radius: 15px;
+      display: grid;
+      place-items: center;
+      font-size: 27px;
+      background: linear-gradient(135deg, #222c38, #131a23);
+      border: 1px solid #2a3542;
+    }
+
+    .app-name {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .developer {
+      color: #707d8d;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .rating {
+      color: #ffc857;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .app-description {
+      color: #8995a4;
+      font-size: 12px;
+      line-height: 1.55;
+      margin: 14px 0;
+      min-height: 38px;
+    }
+
+    .app-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      background: #1b222c;
+      border: 1px solid #242e3a;
+      color: #8d99a8;
+      border-radius: 6px;
+      padding: 4px 7px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .download {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
-      margin-bottom: 15px;
-    }
-
-    .app-card h3 {
-      margin-bottom: 8px;
-    }
-
-    .app-card p {
-      color: #999;
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-    .download-btn {
-      display: block;
-      text-align: center;
+      gap: 7px;
+      width: 100%;
       padding: 11px;
-      background: #22c55e;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 10px;
+      background: var(--green);
+      color: #041008;
+      font-size: 13px;
+      font-weight: 900;
+      transition: 0.2s;
     }
 
-    .download-btn:hover {
-      background: #16a34a;
+    .download:hover {
+      background: #72f39e;
+      transform: translateY(-1px);
     }
+
+    /* Different icon backgrounds */
+
+    .icon-blue {
+      background: linear-gradient(135deg, #263b6c, #15213d);
+    }
+
+    .icon-orange {
+      background: linear-gradient(135deg, #69401e, #321f10);
+    }
+
+    .icon-purple {
+      background: linear-gradient(135deg, #51366e, #2a1c3b);
+    }
+
+    .icon-red {
+      background: linear-gradient(135deg, #692b35, #35171d);
+    }
+
+    .icon-cyan {
+      background: linear-gradient(135deg, #1d5a63, #123239);
+    }
+
+    /* =========================
+       NO RESULTS
+    ========================= */
+
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      border: 1px dashed #29333f;
+      border-radius: 18px;
+      color: var(--muted);
+    }
+
+    .no-results h3 {
+      color: white;
+      margin-bottom: 7px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
 
     footer {
-      margin-top: 70px;
-      padding: 30px;
-      text-align: center;
-      background: #171a21;
-      color: #888;
+      border-top: 1px solid var(--border);
+      background: #06090d;
+      padding: 45px 22px;
     }
 
-    @media (max-width: 600px) {
+    .footer-inner {
+      max-width: 1250px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .footer-brand p {
+      max-width: 350px;
+      color: #737f8d;
+      font-size: 13px;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #7f8a98;
+      font-size: 12px;
+    }
+
+    .footer-links a:hover {
+      color: var(--green);
+    }
+
+    .copyright {
+      max-width: 1250px;
+      margin: 30px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid #151c24;
+      color: #535e6c;
+      font-size: 11px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 1050px) {
+      .app-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 800px) {
+      .nav-links {
+        display: none;
+      }
+
+      .featured {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-art {
+        min-height: 170px;
+        font-size: 75px;
+      }
+
+      .app-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .hero {
+        padding-top: 65px;
+      }
+    }
+
+    @media (max-width: 560px) {
       .hero h1 {
-        font-size: 32px;
+        letter-spacing: -1.8px;
       }
 
-      header {
+      .hero p {
+        font-size: 14px;
+      }
+
+      .stats {
+        gap: 8px;
+      }
+
+      .stat {
+        padding: 13px 5px;
+      }
+
+      .stat strong {
+        font-size: 18px;
+      }
+
+      .stat span {
+        font-size: 9px;
+      }
+
+      .app-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        align-items: center;
+      }
+
+      .featured {
+        padding: 20px;
+      }
+
+      .featured h2 {
+        font-size: 27px;
+      }
+
+      .footer-inner {
         flex-direction: column;
-        gap: 15px;
-      }
-
-      nav a {
-        margin: 0 7px;
       }
     }
   </style>
@@ -162,126 +688,838 @@
 
 <body>
 
-<header>
-  <div class="logo">APK Hub</div>
+  <!-- =========================
+       HEADER
+  ========================== -->
 
-  <nav>
-    <a href="#">Home</a>
-    <a href="#apps">Apps</a>
-    <a href="#games">Games</a>
-  </nav>
-</header>
+  <header class="header">
 
-<section class="hero">
-  <h1>Download Apps & Games</h1>
-  <p>Find your favorite applications and games in one place.</p>
+    <div class="nav">
 
-  <input
-    type="text"
-    id="search"
-    class="search"
-    placeholder="Search apps..."
-    onkeyup="searchApps()"
-  >
-</section>
-
-<main class="container">
-
-  <h2 class="section-title" id="apps">Latest Apps</h2>
-
-  <div class="apps" id="appList">
-
-    <!-- APP 1 -->
-    <div class="app-card">
-      <div class="app-icon">📱</div>
-
-      <h3>Example App</h3>
-
-      <p>
-        Latest version • Android
-      </p>
-
-      <!-- REPLACE THIS URL WITH YOUR AD/SHORTENER LINK -->
-      <a
-        class="download-btn"
-        href="https://example.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Download
+      <a href="#" class="logo">
+        <div class="logo-icon">A</div>
+        APK<span>Hub</span>
       </a>
+
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#apps">Apps</a>
+        <a href="#games">Games</a>
+        <a href="#categories">Categories</a>
+        <a href="#about" class="nav-download">About</a>
+      </nav>
+
     </div>
 
-    <!-- APP 2 -->
-    <div class="app-card">
-      <div class="app-icon">🎮</div>
+  </header>
 
-      <h3>Example Game</h3>
 
-      <p>
-        Latest version • Android
-      </p>
+  <!-- =========================
+       HERO
+  ========================== -->
 
-      <!-- REPLACE THIS URL -->
-      <a
-        class="download-btn"
-        href="https://example.com"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Download
-      </a>
+  <section class="hero" id="home">
+
+    <div class="hero-badge">
+      ⚡ Updated regularly
     </div>
 
-    <!-- APP 3 -->
-    <div class="app-card">
-      <div class="app-icon">🔥</div>
+    <h1>
+      Discover Your
+      <span>Favorite Apps</span>
+    </h1>
 
-      <h3>Another App</h3>
+    <p>
+      Explore apps and games in one place.
+      Find what you need and get started with a simple download.
+    </p>
 
-      <p>
-        Latest version • Android
-      </p>
+    <div class="search-wrapper">
 
-      <!-- REPLACE THIS URL -->
-      <a
-        class="download-btn"
-        href="https://example.com"
-        target="_blank"
-        rel="noopener noreferrer"
+      <div class="search-icon">⌕</div>
+
+      <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="Search apps, games and more..."
+        autocomplete="off"
       >
-        Download
-      </a>
+
     </div>
 
-  </div>
+  </section>
 
-</main>
 
-<footer>
-  <p>© 2026 APK Hub. All rights reserved.</p>
-</footer>
+  <!-- =========================
+       STATS
+  ========================== -->
 
-<script>
-  function searchApps() {
-    const input = document
-      .getElementById("search")
-      .value
-      .toLowerCase();
+  <section class="stats">
 
-    const cards = document.querySelectorAll(".app-card");
+    <div class="stat">
+      <strong>100+</strong>
+      <span>Apps & Games</span>
+    </div>
 
-    cards.forEach(card => {
-      const text = card.innerText.toLowerCase();
+    <div class="stat">
+      <strong>24/7</strong>
+      <span>Available</span>
+    </div>
 
-      if (text.includes(input)) {
-        card.style.display = "";
-      } else {
-        card.style.display = "none";
-      }
+    <div class="stat">
+      <strong>Free</strong>
+      <span>Browse & Discover</span>
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN
+  ========================== -->
+
+  <main class="container">
+
+
+    <!-- CATEGORIES -->
+
+    <section class="section" id="categories">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>Browse Categories</h2>
+          <p>Find something you like</p>
+        </div>
+
+      </div>
+
+      <div class="categories">
+
+        <button class="category active" data-category="all">
+          ✨ All
+        </button>
+
+        <button class="category" data-category="games">
+          🎮 Games
+        </button>
+
+        <button class="category" data-category="social">
+          💬 Social
+        </button>
+
+        <button class="category" data-category="tools">
+          🛠 Tools
+        </button>
+
+        <button class="category" data-category="video">
+          🎬 Video
+        </button>
+
+        <button class="category" data-category="music">
+          🎵 Music
+        </button>
+
+        <button class="category" data-category="education">
+          📚 Education
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- FEATURED -->
+
+    <section class="section">
+
+      <div class="featured">
+
+        <div class="featured-content">
+
+          <span class="featured-label">
+            🔥 Featured
+          </span>
+
+          <h2>Explore Something New</h2>
+
+          <p>
+            Discover popular apps and games from our growing collection.
+            New downloads are added regularly.
+          </p>
+
+          <a href="#apps" class="featured-button">
+            Explore Apps →
+          </a>
+
+        </div>
+
+        <div class="featured-art">
+          📱
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- LATEST APPS -->
+
+    <section class="section" id="apps">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>Latest Apps</h2>
+          <p>Recently added applications</p>
+        </div>
+
+        <a href="#apps" class="view-all">
+          View all →
+        </a>
+
+      </div>
+
+
+      <div class="app-grid" id="appGrid">
+
+
+        <!-- APP 1 -->
+
+        <article class="app-card" data-category="social">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-blue">
+              💬
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Chat
+              </div>
+
+              <div class="developer">
+                Example Developer
+              </div>
+
+              <div class="rating">
+                ★ 4.8
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            A sample social application. Replace this with your real app.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v1.0</span>
+            <span class="tag">25 MB</span>
+            <span class="tag">Android</span>
+          </div>
+
+          <!-- REPLACE WITH YOUR MONETIZED LINK -->
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 2 -->
+
+        <article class="app-card" data-category="games">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-orange">
+              🎮
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Game
+              </div>
+
+              <div class="developer">
+                Example Studio
+              </div>
+
+              <div class="rating">
+                ★ 4.9
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            A sample game listing for your future APK collection.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v2.1</span>
+            <span class="tag">150 MB</span>
+            <span class="tag">Game</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 3 -->
+
+        <article class="app-card" data-category="tools">
+
+          <div class="app-top">
+
+            <div class="app-icon">
+              🛠
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Tool
+              </div>
+
+              <div class="developer">
+                Example Developer
+              </div>
+
+              <div class="rating">
+                ★ 4.7
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            A useful tool application for Android devices.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v3.0</span>
+            <span class="tag">18 MB</span>
+            <span class="tag">Tools</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 4 -->
+
+        <article class="app-card" data-category="video">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-red">
+              🎬
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Video
+              </div>
+
+              <div class="developer">
+                Example Media
+              </div>
+
+              <div class="rating">
+                ★ 4.6
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Discover video and entertainment applications.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v4.2</span>
+            <span class="tag">45 MB</span>
+            <span class="tag">Video</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 5 -->
+
+        <article class="app-card" data-category="music">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-purple">
+              🎵
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Music
+              </div>
+
+              <div class="developer">
+                Example Audio
+              </div>
+
+              <div class="rating">
+                ★ 4.5
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Explore music and audio applications.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v5.0</span>
+            <span class="tag">30 MB</span>
+            <span class="tag">Music</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 6 -->
+
+        <article class="app-card" data-category="education">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-cyan">
+              📚
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Learn
+              </div>
+
+              <div class="developer">
+                Example Education
+              </div>
+
+              <div class="rating">
+                ★ 4.8
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Learning and educational applications for Android.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v2.4</span>
+            <span class="tag">35 MB</span>
+            <span class="tag">Education</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 7 -->
+
+        <article class="app-card" data-category="social">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-blue">
+              👥
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Social
+              </div>
+
+              <div class="developer">
+                Example Developer
+              </div>
+
+              <div class="rating">
+                ★ 4.4
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Connect and communicate with your community.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v1.5</span>
+            <span class="tag">22 MB</span>
+            <span class="tag">Social</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+        <!-- APP 8 -->
+
+        <article class="app-card" data-category="games">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-orange">
+              🏆
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Example Arcade
+              </div>
+
+              <div class="developer">
+                Example Games
+              </div>
+
+              <div class="rating">
+                ★ 4.7
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Another example game for your future collection.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v1.8</span>
+            <span class="tag">90 MB</span>
+            <span class="tag">Game</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+
+      </div>
+
+
+      <div class="no-results" id="noResults">
+
+        <h3>No results found</h3>
+
+        <p>
+          Try searching for another app or choose a different category.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- GAMES -->
+
+    <section class="section" id="games">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>🎮 Popular Games</h2>
+          <p>Games you'll want to try</p>
+        </div>
+
+      </div>
+
+      <div class="app-grid">
+
+        <article class="app-card" data-category="games">
+
+          <div class="app-top">
+
+            <div class="app-icon icon-orange">
+              🎯
+            </div>
+
+            <div>
+
+              <div class="app-name">
+                Popular Game
+              </div>
+
+              <div class="developer">
+                Game Studio
+              </div>
+
+              <div class="rating">
+                ★ 4.8
+              </div>
+
+            </div>
+
+          </div>
+
+          <p class="app-description">
+            Your featured game can be displayed here.
+          </p>
+
+          <div class="app-meta">
+            <span class="tag">v1.0</span>
+            <span class="tag">120 MB</span>
+            <span class="tag">Game</span>
+          </div>
+
+          <a
+            href="https://example.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download"
+          >
+            ↓ Download
+          </a>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <footer id="about">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <a href="#" class="logo">
+          <div class="logo-icon">A</div>
+          APK<span>Hub</span>
+        </a>
+
+        <p>
+          Discover apps and games in one convenient place.
+          New content can be added regularly.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="#home">Home</a>
+        <a href="#apps">Apps</a>
+        <a href="#games">Games</a>
+        <a href="#categories">Categories</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Disclaimer</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 APK Hub. All rights reserved.
+
+    </div>
+
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script>
+
+    const searchInput = document.getElementById("search");
+
+    const appCards = document.querySelectorAll(".app-card");
+
+    const categoryButtons =
+      document.querySelectorAll(".category");
+
+    const noResults =
+      document.getElementById("noResults");
+
+
+    let selectedCategory = "all";
+
+
+    function filterApps() {
+
+      const searchText =
+        searchInput.value
+        .toLowerCase()
+        .trim();
+
+      let visible = 0;
+
+
+      appCards.forEach(card => {
+
+        const cardText =
+          card.innerText.toLowerCase();
+
+        const cardCategory =
+          card.dataset.category || "all";
+
+
+        const matchesSearch =
+          cardText.includes(searchText);
+
+
+        const matchesCategory =
+          selectedCategory === "all" ||
+          cardCategory === selectedCategory;
+
+
+        if (matchesSearch && matchesCategory) {
+
+          card.style.display = "";
+
+          visible++;
+
+        } else {
+
+          card.style.display = "none";
+
+        }
+
+      });
+
+
+      noResults.style.display =
+        visible === 0 ? "block" : "none";
+
+    }
+
+
+    searchInput.addEventListener(
+      "input",
+      filterApps
+    );
+
+
+    categoryButtons.forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          categoryButtons.forEach(btn => {
+            btn.classList.remove("active");
+          });
+
+
+          button.classList.add("active");
+
+
+          selectedCategory =
+            button.dataset.category;
+
+
+          filterApps();
+
+        }
+      );
+
     });
-  }
-</script>
+
+  </script>
 
 </body>
 </html>
