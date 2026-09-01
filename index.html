@@ -1704,7 +1704,37 @@ body.intro-active{
 
 </footer>
 
+/* =========================
+   APK HUB INTRO
+========================= */
 
+const introScreen = document.getElementById("introScreen");
+const introSkip = document.getElementById("introSkip");
+const introClose = document.getElementById("introClose");
+
+function closeIntro(){
+  if(!introScreen) return;
+
+  introScreen.classList.add("hide");
+  document.body.classList.remove("intro-active");
+
+  localStorage.setItem("apkHubIntroSeen","true");
+}
+
+const introSeen = localStorage.getItem("apkHubIntroSeen");
+
+if(introSeen){
+  introScreen.classList.add("hide");
+}else{
+  document.body.classList.add("intro-active");
+
+  setTimeout(() => {
+    closeIntro();
+  },4500);
+}
+
+introSkip.addEventListener("click",closeIntro);
+introClose.addEventListener("click",closeIntro);
 <script>
 
 const searchInput = document.getElementById("search");
