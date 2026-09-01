@@ -1724,17 +1724,13 @@ function closeIntro(){
   localStorage.setItem("apkHubIntroSeen","true");
 }
 
-const introSeen = localStorage.getItem("apkHubIntroSeen");
+  // SHOW INTRO ON EVERY RELOAD
+document.body.classList.add("intro-active");
 
-if(introSeen){
-  introScreen.classList.add("hide");
-}else{
-  document.body.classList.add("intro-active");
+setTimeout(() => {
+  closeIntro();
+}, 4500);
 
-  setTimeout(() => {
-    closeIntro();
-  },4500);
-}
 
 introSkip.addEventListener("click",closeIntro);
 introClose.addEventListener("click",closeIntro);
