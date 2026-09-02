@@ -35,13 +35,23 @@ html{
   scroll-behavior:smooth;
 }
 
+/* =========================
+   24/7 BACKGROUND VIDEO & VTOAD HOVER EFFECT
+========================= */
+
+#bgVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  z-index: -2;
+  object-fit: cover;
+}
+
 body{
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:
-    radial-gradient(circle at 10% 5%,rgba(57,237,130,.13),transparent 25%),
-    radial-gradient(circle at 90% 8%,rgba(93,141,255,.13),transparent 25%),
-    radial-gradient(circle at 50% 100%,rgba(166,108,255,.09),transparent 30%),
-    var(--bg);
+  background: transparent !important;
   color:var(--text);
   min-height:100vh;
   overflow-x:hidden;
@@ -51,18 +61,6 @@ body.intro-active{
   overflow:hidden;
 }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
-  background-size:35px 35px;
-  opacity:.18;
-  z-index:-1;
-}
-
 a{
   color:inherit;
   text-decoration:none;
@@ -70,6 +68,35 @@ a{
 
 button,input{
   font:inherit;
+}
+
+/* Base state: Highly Transparent (Background animation clear dikhne ke liye) */
+.header, 
+.app-card, 
+.featured, 
+.stat, 
+.category,
+.search {
+  background: rgba(10, 14, 22, 0.35) !important;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  opacity: 0.65;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Hover state: Mouse Arrow aate hi Dark, Solid aur Glowing ho jana */
+.app-card:hover, 
+.featured:hover, 
+.stat:hover, 
+.header:hover,
+.category:hover,
+.search:focus {
+  opacity: 1 !important;
+  background: rgba(6, 8, 13, 0.92) !important;
+  backdrop-filter: blur(16px);
+  border-color: rgba(57, 237, 130, 0.45) !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(57, 237, 130, 0.15) !important;
+  transform: translateY(-5px);
 }
 
 /* =========================
@@ -110,9 +137,7 @@ button,input{
 }
 
 @keyframes introGridMove{
-  to{
-    transform:translateY(55px);
-  }
+  to{ transform:translateY(55px); }
 }
 
 .intro-orb{
@@ -123,21 +148,13 @@ button,input{
   width:420px;
   height:420px;
   border-radius:50%;
-  background:radial-gradient(
-    circle,
-    rgba(57,237,130,.18),
-    rgba(93,141,255,.08) 35%,
-    transparent 70%
-  );
+  background:radial-gradient(circle, rgba(57,237,130,.18), rgba(93,141,255,.08) 35%, transparent 70%);
   filter:blur(8px);
   animation:introOrb 5s ease-in-out infinite;
 }
 
 @keyframes introOrb{
-  50%{
-    transform:translate(-50%,-50%) scale(1.18);
-    opacity:.7;
-  }
+  50%{ transform:translate(-50%,-50%) scale(1.18); opacity:.7; }
 }
 
 .intro-content{
@@ -158,14 +175,8 @@ button,input{
 }
 
 @keyframes introSmall{
-  from{
-    opacity:0;
-    transform:translateY(15px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  from{ opacity:0; transform:translateY(15px); }
+  to{ opacity:1; transform:translateY(0); }
 }
 
 .intro-logo{
@@ -182,13 +193,8 @@ button,input{
 }
 
 @keyframes introLogo{
-  70%{
-    transform:scale(1.06);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
+  70%{ transform:scale(1.06); }
+  to{ opacity:1; transform:scale(1); }
 }
 
 .intro-logo-icon{
@@ -201,14 +207,10 @@ button,input{
   color:#041008;
   font-size:.55em;
   letter-spacing:-2px;
-  box-shadow:
-    0 0 35px rgba(57,237,130,.35),
-    0 15px 50px rgba(57,237,130,.15);
+  box-shadow:0 0 35px rgba(57,237,130,.35), 0 15px 50px rgba(57,237,130,.15);
 }
 
-.intro-logo span{
-  color:var(--green);
-}
+.intro-logo span{ color:var(--green); }
 
 .intro-tagline{
   margin-top:20px;
@@ -222,10 +224,7 @@ button,input{
 }
 
 @keyframes introTagline{
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  to{ opacity:1; transform:translateY(0); }
 }
 
 .intro-icon{
@@ -244,45 +243,15 @@ button,input{
   animation:introFloat 4s ease-in-out infinite;
 }
 
-.intro-icon:nth-of-type(1){
-  left:12%;
-  top:25%;
-}
-
-.intro-icon:nth-of-type(2){
-  right:14%;
-  top:20%;
-  animation-delay:.8s;
-}
-
-.intro-icon:nth-of-type(3){
-  left:18%;
-  bottom:24%;
-  animation-delay:1.2s;
-}
-
-.intro-icon:nth-of-type(4){
-  right:17%;
-  bottom:22%;
-  animation-delay:.5s;
-}
-
-.intro-icon:nth-of-type(5){
-  left:7%;
-  top:58%;
-  animation-delay:1.6s;
-}
-
-.intro-icon:nth-of-type(6){
-  right:8%;
-  top:55%;
-  animation-delay:1s;
-}
+.intro-icon:nth-of-type(1){ left:12%; top:25%; }
+.intro-icon:nth-of-type(2){ right:14%; top:20%; animation-delay:.8s; }
+.intro-icon:nth-of-type(3){ left:18%; bottom:24%; animation-delay:1.2s; }
+.intro-icon:nth-of-type(4){ right:17%; bottom:22%; animation-delay:.5s; }
+.intro-icon:nth-of-type(5){ left:7%; top:58%; animation-delay:1.6s; }
+.intro-icon:nth-of-type(6){ right:8%; top:55%; animation-delay:1s; }
 
 @keyframes introFloat{
-  50%{
-    transform:translateY(-18px) rotate(6deg);
-  }
+  50%{ transform:translateY(-18px) rotate(6deg); }
 }
 
 .intro-actions{
@@ -334,28 +303,6 @@ button,input{
   transform:rotate(90deg);
 }
 
-@media(max-width:600px){
-  .intro-icon{
-    width:45px;
-    height:45px;
-    font-size:21px;
-  }
-
-  .intro-icon:nth-of-type(5),
-  .intro-icon:nth-of-type(6){
-    display:none;
-  }
-
-  .intro-logo{
-    letter-spacing:-3px;
-  }
-
-  .intro-tagline{
-    letter-spacing:3px;
-    font-size:9px;
-  }
-}
-
 /* =========================
    HEADER
 ========================= */
@@ -364,9 +311,6 @@ button,input{
   position:sticky;
   top:0;
   z-index:1000;
-  background:rgba(6,8,13,.72);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,.07);
 }
 
 .nav{
@@ -388,9 +332,7 @@ button,input{
   letter-spacing:-.7px;
 }
 
-.logo span{
-  color:var(--green);
-}
+.logo span{ color:var(--green); }
 
 .logo-icon{
   width:40px;
@@ -402,11 +344,6 @@ button,input{
   color:#041008;
   box-shadow:0 8px 30px rgba(57,237,130,.22);
   transition:.3s;
-}
-
-.logo:hover .logo-icon{
-  transform:rotate(-8deg) scale(1.1);
-  box-shadow:0 12px 35px rgba(57,237,130,.4);
 }
 
 .nav-links{
@@ -422,11 +359,6 @@ button,input{
   transition:.25s;
 }
 
-.nav-links a:hover{
-  color:var(--green);
-  transform:translateY(-2px);
-}
-
 .nav-btn{
   padding:10px 16px;
   border:1px solid rgba(57,237,130,.25);
@@ -436,7 +368,7 @@ button,input{
 }
 
 /* =========================
-   HERO
+   HERO & SEARCH
 ========================= */
 
 .hero{
@@ -444,18 +376,6 @@ button,input{
   margin:auto;
   padding:95px 20px 45px;
   text-align:center;
-  animation:heroIn .8s ease both;
-}
-
-@keyframes heroIn{
-  from{
-    opacity:0;
-    transform:translateY(25px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
 }
 
 .badge{
@@ -482,10 +402,7 @@ button,input{
 }
 
 @keyframes pulse{
-  50%{
-    opacity:.35;
-    transform:scale(.65);
-  }
+  50%{ opacity:.35; transform:scale(.65); }
 }
 
 .hero h1{
@@ -512,8 +429,6 @@ button,input{
   line-height:1.7;
 }
 
-/* SEARCH */
-
 .search-box{
   max-width:700px;
   margin:34px auto 0;
@@ -533,29 +448,13 @@ button,input{
   width:100%;
   height:60px;
   padding:0 22px 0 55px;
-  border:1px solid var(--border);
   border-radius:17px;
   outline:none;
-  background:rgba(16,22,32,.85);
   color:white;
-  box-shadow:0 20px 60px rgba(0,0,0,.28);
-  transition:.3s;
-}
-
-.search::placeholder{
-  color:#687486;
-}
-
-.search:focus{
-  border-color:rgba(57,237,130,.55);
-  box-shadow:
-    0 0 0 4px rgba(57,237,130,.07),
-    0 20px 70px rgba(0,0,0,.35);
-  transform:translateY(-2px);
 }
 
 /* =========================
-   STATS
+   STATS & CONTAINER
 ========================= */
 
 .stats{
@@ -570,32 +469,11 @@ button,input{
 .stat{
   padding:22px;
   text-align:center;
-  border:1px solid var(--border);
   border-radius:16px;
-  background:rgba(15,21,31,.68);
-  backdrop-filter:blur(10px);
-  transition:.3s;
 }
 
-.stat:hover{
-  transform:translateY(-5px);
-  border-color:rgba(57,237,130,.25);
-}
-
-.stat strong{
-  display:block;
-  font-size:25px;
-  margin-bottom:5px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-/* =========================
-   CONTAINER
-========================= */
+.stat strong{ display:block; font-size:25px; margin-bottom:5px; }
+.stat span{ color:var(--muted); font-size:11px; }
 
 .container{
   max-width:1200px;
@@ -603,9 +481,7 @@ button,input{
   padding:0 20px 80px;
 }
 
-.section{
-  margin-bottom:65px;
-}
+.section{ margin-bottom:65px; }
 
 .section-head{
   display:flex;
@@ -615,26 +491,11 @@ button,input{
   margin-bottom:22px;
 }
 
-.section-head h2{
-  font-size:27px;
-  letter-spacing:-.7px;
-}
+.section-head h2{ font-size:27px; letter-spacing:-.7px; }
+.section-head p{ color:var(--muted); font-size:12px; margin-top:5px; }
+.view{ color:var(--green); font-size:12px; font-weight:800; }
 
-.section-head p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
-}
-
-.view{
-  color:var(--green);
-  font-size:12px;
-  font-weight:800;
-}
-
-/* =========================
-   CATEGORIES
-========================= */
+/* CATEGORIES */
 
 .categories{
   display:flex;
@@ -644,95 +505,36 @@ button,input{
   padding:3px 0 7px;
 }
 
-.categories::-webkit-scrollbar{
-  display:none;
-}
-
 .category{
   flex:0 0 auto;
   cursor:pointer;
   padding:11px 17px;
-  border:1px solid var(--border);
   border-radius:30px;
-  background:#101620;
   color:#9da8b8;
   font-size:12px;
   font-weight:800;
-  transition:.25s;
-}
-
-.category:hover{
-  transform:translateY(-3px);
-  border-color:rgba(57,237,130,.3);
-  color:white;
 }
 
 .category.active{
-  background:var(--green);
-  border-color:var(--green);
-  color:#031008;
-  box-shadow:0 7px 25px rgba(57,237,130,.16);
+  background:var(--green) !important;
+  color:#031008 !important;
+  opacity:1 !important;
 }
 
-/* =========================
-   FEATURED
-========================= */
+/* FEATURED */
 
 .featured{
-  position:relative;
-  overflow:hidden;
   display:grid;
   grid-template-columns:1.2fr .8fr;
   gap:25px;
   padding:35px;
-  border:1px solid rgba(255,255,255,.1);
   border-radius:25px;
-  background:
-    radial-gradient(circle at 90% 20%,rgba(57,237,130,.18),transparent 35%),
-    linear-gradient(135deg,#111a26,#0b1018);
-  box-shadow:0 25px 80px rgba(0,0,0,.22);
 }
 
-.featured::after{
-  content:"";
-  position:absolute;
-  width:240px;
-  height:240px;
-  right:-100px;
-  bottom:-130px;
-  background:rgba(93,141,255,.12);
-  filter:blur(70px);
-}
-
-.featured-content{
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-.featured-label{
-  color:var(--green);
-  font-size:11px;
-  font-weight:900;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  margin-bottom:12px;
-}
-
-.featured h2{
-  font-size:35px;
-  letter-spacing:-1px;
-  margin-bottom:10px;
-}
-
-.featured p{
-  max-width:530px;
-  color:var(--muted);
-  line-height:1.65;
-  font-size:14px;
-}
+.featured-content{ display:flex; flex-direction:column; justify-content:center; }
+.featured-label{ color:var(--green); font-size:11px; font-weight:900; letter-spacing:1.5px; margin-bottom:12px; }
+.featured h2{ font-size:35px; letter-spacing:-1px; margin-bottom:10px; }
+.featured p{ max-width:530px; color:var(--muted); line-height:1.65; font-size:14px; }
 
 .featured-button{
   width:max-content;
@@ -743,13 +545,6 @@ button,input{
   color:#041008;
   font-size:13px;
   font-weight:900;
-  transition:.25s;
-  box-shadow:0 8px 25px rgba(57,237,130,.16);
-}
-
-.featured-button:hover{
-  transform:translateY(-4px);
-  box-shadow:0 13px 35px rgba(57,237,130,.28);
 }
 
 .featured-art{
@@ -757,23 +552,10 @@ button,input{
   display:grid;
   place-items:center;
   border-radius:20px;
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    radial-gradient(circle,rgba(57,237,130,.25),transparent 34%),
-    #090f17;
   font-size:100px;
-  animation:float 4s ease-in-out infinite;
 }
 
-@keyframes float{
-  50%{
-    transform:translateY(-8px) rotate(2deg);
-  }
-}
-
-/* =========================
-   APP GRID
-========================= */
+/* APP GRID */
 
 .app-grid{
   display:grid;
@@ -785,58 +567,10 @@ button,input{
   position:relative;
   overflow:hidden;
   padding:17px;
-  border:1px solid var(--border);
   border-radius:18px;
-  background:var(--card);
-  backdrop-filter:blur(12px);
-  transition:
-    transform .3s ease,
-    border-color .3s ease,
-    box-shadow .3s ease,
-    background .3s ease;
-  animation:cardIn .6s ease both;
 }
 
-@keyframes cardIn{
-  from{
-    opacity:0;
-    transform:translateY(15px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-.app-card::before{
-  content:"";
-  position:absolute;
-  width:130px;
-  height:130px;
-  top:-70px;
-  right:-70px;
-  border-radius:50%;
-  background:rgba(57,237,130,.1);
-  filter:blur(25px);
-  transition:.3s;
-}
-
-.app-card:hover{
-  transform:translateY(-9px) scale(1.015);
-  border-color:rgba(57,237,130,.32);
-  background:var(--card2);
-  box-shadow:0 20px 50px rgba(0,0,0,.3);
-}
-
-.app-card:hover::before{
-  transform:scale(1.5);
-}
-
-.app-top{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
+.app-top{ display:flex; align-items:center; gap:13px; }
 
 .app-icon{
   width:62px;
@@ -846,55 +580,19 @@ button,input{
   place-items:center;
   border-radius:16px;
   font-size:27px;
-  border:1px solid rgba(255,255,255,.1);
   background:linear-gradient(135deg,#283442,#151c26);
-  transition:.3s;
 }
 
-.app-card:hover .app-icon{
-  transform:rotate(-5deg) scale(1.08);
-}
+.icon-blue{ background:linear-gradient(135deg,#3158a4,#17284e); }
+.icon-orange{ background:linear-gradient(135deg,#8b5425,#3c2310); }
+.icon-purple{ background:linear-gradient(135deg,#694598,#2d1d48); }
+.icon-red{ background:linear-gradient(135deg,#913542,#3d171e); }
+.icon-cyan{ background:linear-gradient(135deg,#287681,#15383e); }
+.icon-pink{ background:linear-gradient(135deg,#a23d72,#40192d); }
 
-.icon-blue{
-  background:linear-gradient(135deg,#3158a4,#17284e);
-}
-
-.icon-orange{
-  background:linear-gradient(135deg,#8b5425,#3c2310);
-}
-
-.icon-purple{
-  background:linear-gradient(135deg,#694598,#2d1d48);
-}
-
-.icon-red{
-  background:linear-gradient(135deg,#913542,#3d171e);
-}
-
-.icon-cyan{
-  background:linear-gradient(135deg,#287681,#15383e);
-}
-
-.icon-pink{
-  background:linear-gradient(135deg,#a23d72,#40192d);
-}
-
-.app-name{
-  font-size:15px;
-  font-weight:900;
-}
-
-.developer{
-  color:#707d8d;
-  font-size:10px;
-  margin-top:4px;
-}
-
-.rating{
-  color:#ffc857;
-  font-size:11px;
-  margin-top:4px;
-}
+.app-name{ font-size:15px; font-weight:900; }
+.developer{ color:#707d8d; font-size:10px; margin-top:4px; }
+.rating{ color:#ffc857; font-size:11px; margin-top:4px; }
 
 .new-badge{
   position:absolute;
@@ -903,42 +601,20 @@ button,input{
   padding:4px 7px;
   border-radius:6px;
   background:rgba(57,237,130,.1);
-  border:1px solid rgba(57,237,130,.18);
   color:var(--green);
   font-size:8px;
   font-weight:900;
 }
 
-.app-description{
-  min-height:38px;
-  margin:15px 0;
-  color:#8793a4;
-  font-size:11px;
-  line-height:1.55;
-}
+.app-description{ min-height:38px; margin:15px 0; color:#8793a4; font-size:11px; line-height:1.55; }
 
-.app-meta{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-bottom:14px;
-}
-
-.tag{
-  padding:4px 7px;
-  border-radius:6px;
-  background:#1a222d;
-  border:1px solid #242e3a;
-  color:#8995a5;
-  font-size:9px;
-  font-weight:800;
-}
+.app-meta{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+.tag{ padding:4px 7px; border-radius:6px; background:#1a222d; color:#8995a5; font-size:9px; font-weight:800; }
 
 .download{
   display:flex;
   justify-content:center;
   align-items:center;
-  gap:7px;
   width:100%;
   padding:11px;
   border-radius:10px;
@@ -946,18 +622,7 @@ button,input{
   color:#031008;
   font-size:12px;
   font-weight:950;
-  transition:.25s;
-  cursor:pointer;
 }
-
-.download:hover{
-  transform:translateY(-3px);
-  box-shadow:0 10px 25px rgba(57,237,130,.25);
-}
-
-/* =========================
-   NO RESULTS
-========================= */
 
 .no-results{
   display:none;
@@ -968,199 +633,62 @@ button,input{
   color:var(--muted);
 }
 
-.no-results h3{
-  color:white;
-  margin-bottom:7px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
 footer{
   border-top:1px solid var(--border);
-  background:#05070b;
+  background:rgba(5,7,11,0.85);
   padding:45px 20px;
 }
 
-.footer-inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  gap:30px;
-}
+.footer-inner{ max-width:1200px; margin:auto; display:flex; justify-content:space-between; gap:30px; }
+.footer-brand p{ max-width:360px; margin-top:11px; color:#697585; font-size:12px; }
+.footer-links{ display:flex; flex-wrap:wrap; gap:20px; align-items:center; }
+.footer-links a{ color:#7e8998; font-size:11px; }
+.copyright{ max-width:1200px; margin:30px auto 0; padding-top:20px; border-top:1px solid #151c25; color:#4e5967; font-size:10px; }
 
-.footer-brand p{
-  max-width:360px;
-  margin-top:11px;
-  color:#697585;
-  font-size:12px;
-  line-height:1.65;
-}
-
-.footer-links{
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
-  align-items:center;
-}
-
-.footer-links a{
-  color:#7e8998;
-  font-size:11px;
-  transition:.2s;
-}
-
-.footer-links a:hover{
-  color:var(--green);
-}
-
-.copyright{
-  max-width:1200px;
-  margin:30px auto 0;
-  padding-top:20px;
-  border-top:1px solid #151c25;
-  color:#4e5967;
-  font-size:10px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:1050px){
-  .app-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-}
-
+@media(max-width:1050px){ .app-grid{ grid-template-columns:repeat(3,1fr); } }
 @media(max-width:800px){
-  .nav-links{
-    display:none;
-  }
-
-  .hero{
-    padding-top:70px;
-  }
-
-  .featured{
-    grid-template-columns:1fr;
-  }
-
-  .featured-art{
-    min-height:170px;
-    font-size:75px;
-  }
-
-  .app-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .nav-links{ display:none; }
+  .featured{ grid-template-columns:1fr; }
+  .app-grid{ grid-template-columns:repeat(2,1fr); }
 }
-
 @media(max-width:560px){
-  .hero h1{
-    font-size:43px;
-    letter-spacing:-2px;
-  }
-
-  .hero p{
-    font-size:14px;
-  }
-
-  .stats{
-    gap:7px;
-  }
-
-  .stat{
-    padding:15px 5px;
-  }
-
-  .stat strong{
-    font-size:18px;
-  }
-
-  .stat span{
-    font-size:9px;
-  }
-
-  .app-grid{
-    grid-template-columns:1fr;
-  }
-
-  .featured{
-    padding:23px;
-  }
-
-  .featured h2{
-    font-size:28px;
-  }
-
-  .footer-inner{
-    flex-direction:column;
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  *,
-  *::before,
-  *::after{
-    animation:none!important;
-    transition:none!important;
-  }
+  .hero h1{ font-size:43px; }
+  .stats{ gap:7px; }
+  .app-grid{ grid-template-columns:1fr; }
+  .footer-inner{ flex-direction:column; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="intro-screen" id="introScreen">
+<video autoplay loop muted playsinline id="bgVideo">
+  <source src="bg-animation.mp4" type="video/mp4">
+</video>
 
+<div class="intro-screen" id="introScreen">
   <div class="intro-grid"></div>
   <div class="intro-orb"></div>
-
   <div class="intro-icon">📱</div>
   <div class="intro-icon">🎮</div>
   <div class="intro-icon">💬</div>
   <div class="intro-icon">🎬</div>
   <div class="intro-icon">🎵</div>
   <div class="intro-icon">📚</div>
-
   <button class="intro-close" id="introClose">✕</button>
-
   <div class="intro-content">
-
-    <div class="intro-small">
-      Welcome to
-    </div>
-
-    <div class="intro-logo">
-      <div class="intro-logo-icon">A</div>
-      APK<span>Hub</span>
-    </div>
-
-    <div class="intro-tagline">
-      DISCOVER • DOWNLOAD • ENJOY
-    </div>
-
+    <div class="intro-small">Welcome to</div>
+    <div class="intro-logo"><div class="intro-logo-icon">A</div>APK<span>Hub</span></div>
+    <div class="intro-tagline">DISCOVER • DOWNLOAD • ENJOY</div>
   </div>
-
   <div class="intro-actions">
-    <button class="intro-skip" id="introSkip">
-      Skip Intro →
-    </button>
+    <button class="intro-skip" id="introSkip">Skip Intro →</button>
   </div>
-
 </div>
 
 <header class="header">
   <div class="nav">
-
-    <a href="#home" class="logo">
-      <div class="logo-icon">A</div>
-      APK<span>Hub</span>
-    </a>
-
+    <a href="#home" class="logo"><div class="logo-icon">A</div>APK<span>Hub</span></a>
     <nav class="nav-links">
       <a href="#home">Home</a>
       <a href="#apps">Apps</a>
@@ -1168,652 +696,170 @@ footer{
       <a href="#categories">Categories</a>
       <a href="#about" class="nav-btn">About</a>
     </nav>
-
   </div>
 </header>
 
-
 <section class="hero" id="home">
-
-  <div class="badge">
-    <span class="badge-dot"></span>
-    Fresh apps & games added regularly
-  </div>
-
-  <h1>
-    Your World of
-    <span class="gradient">Android Apps</span>
-  </h1>
-
-  <p>
-    Discover useful apps, exciting games and new Android experiences
-    in one clean and easy-to-use place.
-  </p>
-
+  <div class="badge"><span class="badge-dot"></span> Fresh apps & games added regularly</div>
+  <h1>Your World of <span class="gradient">Android Apps</span></h1>
+  <p>Discover useful apps, exciting games and new Android experiences in one clean and easy-to-use place.</p>
   <div class="search-box">
     <div class="search-icon">⌕</div>
-
-    <input
-      id="search"
-      class="search"
-      type="text"
-      placeholder="Search apps, games, tools..."
-      autocomplete="off"
-    >
+    <input id="search" class="search" type="text" placeholder="Search apps, games, tools..." autocomplete="off">
   </div>
-
 </section>
-
 
 <section class="stats">
-
-  <div class="stat">
-    <strong>100+</strong>
-    <span>Apps & Games</span>
-  </div>
-
-  <div class="stat">
-    <strong>24/7</strong>
-    <span>Available</span>
-  </div>
-
-  <div class="stat">
-    <strong>FREE</strong>
-    <span>Browse & Discover</span>
-  </div>
-
+  <div class="stat"><strong>100+</strong><span>Apps & Games</span></div>
+  <div class="stat"><strong>24/7</strong><span>Available</span></div>
+  <div class="stat"><strong>FREE</strong><span>Browse & Discover</span></div>
 </section>
-
 
 <main class="container">
 
-
 <section class="section" id="categories">
-
   <div class="section-head">
-    <div>
-      <h2>Browse Categories</h2>
-      <p>Find something interesting</p>
-    </div>
+    <div><h2>Browse Categories</h2><p>Find something interesting</p></div>
   </div>
-
   <div class="categories">
-
     <button class="category active" data-category="all">✨ All</button>
-
     <button class="category" data-category="games">🎮 Games</button>
-
     <button class="category" data-category="social">💬 Social</button>
-
     <button class="category" data-category="tools">🛠 Tools</button>
-
     <button class="category" data-category="video">🎬 Video</button>
-
     <button class="category" data-category="music">🎵 Music</button>
-
     <button class="category" data-category="education">📚 Education</button>
-
   </div>
-
 </section>
-
 
 <section class="section">
-
   <div class="featured">
-
     <div class="featured-content">
-
       <span class="featured-label">🔥 FEATURED APP</span>
-
       <h2>Discover Something New</h2>
-
-      <p>
-        Explore our latest collection of Android applications
-        and games. Find your next favorite app today.
-      </p>
-
-      <a href="#apps" class="featured-button">
-        Explore Apps →
-      </a>
-
+      <p>Explore our latest collection of Android applications and games. Find your next favorite app today.</p>
+      <a href="#apps" class="featured-button">Explore Apps →</a>
     </div>
-
-    <div class="featured-art">
-      📱
-    </div>
-
+    <div class="featured-art">📱</div>
   </div>
-
 </section>
 
-
 <section class="section" id="apps">
-
   <div class="section-head">
-
-    <div>
-      <h2>🚀 Latest Apps</h2>
-      <p>Recently added applications</p>
-    </div>
-
+    <div><h2>🚀 Latest Apps</h2><p>Recently added applications</p></div>
     <a href="#apps" class="view">View all →</a>
-
   </div>
 
-
   <div class="app-grid" id="appGrid">
-
-
-    <!-- APP 1 -->
-
     <article class="app-card" data-category="social">
-
       <span class="new-badge">NEW</span>
-
       <div class="app-top">
-
         <div class="app-icon icon-blue">💬</div>
-
         <div>
           <div class="app-name">Example Chat</div>
           <div class="developer">Example Developer</div>
           <div class="rating">★ 4.8</div>
         </div>
-
       </div>
-
-      <p class="app-description">
-        A modern social application for connecting with friends.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v1.0</span>
-        <span class="tag">25 MB</span>
-        <span class="tag">Android</span>
-      </div>
-
-      <!-- CHANGE THIS LINK -->
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
+      <p class="app-description">A modern social application for connecting with friends.</p>
+      <div class="app-meta"><span class="tag">v1.0</span><span class="tag">25 MB</span><span class="tag">Android</span></div>
+      <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="download">↓ Download</a>
     </article>
 
-
-    <!-- APP 2 -->
-
     <article class="app-card" data-category="games">
-
       <span class="new-badge">NEW</span>
-
       <div class="app-top">
-
         <div class="app-icon icon-orange">🎮</div>
-
         <div>
           <div class="app-name">Example Game</div>
           <div class="developer">Example Studio</div>
           <div class="rating">★ 4.9</div>
         </div>
-
       </div>
-
-      <p class="app-description">
-        An exciting Android game ready for your next adventure.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v2.1</span>
-        <span class="tag">150 MB</span>
-        <span class="tag">Game</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
+      <p class="app-description">An exciting Android game ready for your next adventure.</p>
+      <div class="app-meta"><span class="tag">v2.1</span><span class="tag">150 MB</span><span class="tag">Game</span></div>
+      <a href="https://example.com" target="_blank" rel="noopener noreferrer" class="download">↓ Download</a>
     </article>
-
-
-    <!-- APP 3 -->
-
-    <article class="app-card" data-category="tools">
-
-      <div class="app-top">
-
-        <div class="app-icon">🛠</div>
-
-        <div>
-          <div class="app-name">Example Tool</div>
-          <div class="developer">Example Developer</div>
-          <div class="rating">★ 4.7</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        A useful tool application for everyday Android tasks.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v3.0</span>
-        <span class="tag">18 MB</span>
-        <span class="tag">Tools</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
-    <!-- APP 4 -->
-
-    <article class="app-card" data-category="video">
-
-      <div class="app-top">
-
-        <div class="app-icon icon-red">🎬</div>
-
-        <div>
-          <div class="app-name">Example Video</div>
-          <div class="developer">Example Media</div>
-          <div class="rating">★ 4.6</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        Discover video and entertainment applications.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v4.2</span>
-        <span class="tag">45 MB</span>
-        <span class="tag">Video</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
-    <!-- APP 5 -->
-
-    <article class="app-card" data-category="music">
-
-      <div class="app-top">
-
-        <div class="app-icon icon-purple">🎵</div>
-
-        <div>
-          <div class="app-name">Example Music</div>
-          <div class="developer">Example Audio</div>
-          <div class="rating">★ 4.5</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        Explore music and audio applications.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v5.0</span>
-        <span class="tag">30 MB</span>
-        <span class="tag">Music</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
-    <!-- APP 6 -->
-
-    <article class="app-card" data-category="education">
-
-      <div class="app-top">
-
-        <div class="app-icon icon-cyan">📚</div>
-
-        <div>
-          <div class="app-name">Example Learn</div>
-          <div class="developer">Example Education</div>
-          <div class="rating">★ 4.8</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        Learning and educational applications for Android.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v2.4</span>
-        <span class="tag">35 MB</span>
-        <span class="tag">Education</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
-    <!-- APP 7 -->
-
-    <article class="app-card" data-category="social">
-
-      <div class="app-top">
-
-        <div class="app-icon icon-pink">👥</div>
-
-        <div>
-          <div class="app-name">Example Social</div>
-          <div class="developer">Example Developer</div>
-          <div class="rating">★ 4.4</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        Connect and communicate with your community.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v1.5</span>
-        <span class="tag">22 MB</span>
-        <span class="tag">Social</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
-    <!-- APP 8 -->
-
-    <article class="app-card" data-category="games">
-
-      <div class="app-top">
-
-        <div class="app-icon icon-orange">🏆</div>
-
-        <div>
-          <div class="app-name">Example Arcade</div>
-          <div class="developer">Example Games</div>
-          <div class="rating">★ 4.7</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        A fun arcade experience for Android gamers.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v1.8</span>
-        <span class="tag">90 MB</span>
-        <span class="tag">Game</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-
   </div>
-
 
   <div class="no-results" id="noResults">
     <h3>😕 Nothing Found</h3>
     <p>Try another search or category.</p>
   </div>
-
-</section>
-
-
-<section class="section" id="games">
-
-  <div class="section-head">
-
-    <div>
-      <h2>🎮 Popular Games</h2>
-      <p>Games you might enjoy</p>
-    </div>
-
-  </div>
-
-
-  <div class="app-grid">
-
-    <article class="app-card" data-category="games">
-
-      <span class="new-badge">HOT</span>
-
-      <div class="app-top">
-
-        <div class="app-icon icon-orange">🎯</div>
-
-        <div>
-          <div class="app-name">Popular Game</div>
-          <div class="developer">Game Studio</div>
-          <div class="rating">★ 4.8</div>
-        </div>
-
-      </div>
-
-      <p class="app-description">
-        Your featured Android game can be displayed here.
-      </p>
-
-      <div class="app-meta">
-        <span class="tag">v1.0</span>
-        <span class="tag">120 MB</span>
-        <span class="tag">Game</span>
-      </div>
-
-      <a href="https://example.com"
-         target="_blank"
-         rel="noopener noreferrer"
-         class="download">
-        ↓ Download
-      </a>
-
-    </article>
-
-  </div>
-
 </section>
 
 </main>
 
-
 <footer id="about">
-
   <div class="footer-inner">
-
     <div class="footer-brand">
-
-      <a href="#home" class="logo">
-        <div class="logo-icon">A</div>
-        APK<span>Hub</span>
-      </a>
-
-      <p>
-        APK Hub is a simple platform for discovering Android
-        applications and games.
-      </p>
-
+      <a href="#home" class="logo"><div class="logo-icon">A</div>APK<span>Hub</span></a>
+      <p>APK Hub is a simple platform for discovering Android applications and games.</p>
     </div>
-
-
     <div class="footer-links">
-
       <a href="#home">Home</a>
       <a href="#apps">Apps</a>
       <a href="#games">Games</a>
       <a href="#categories">Categories</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Disclaimer</a>
-
     </div>
-
   </div>
-
-
-  <div class="copyright">
-    © 2026 APK Hub. All rights reserved.
-  </div>
-
+  <div class="copyright">© 2026 APK Hub. All rights reserved.</div>
 </footer>
 
 <script>
-
-/* =========================
-   APK HUB INTRO
-========================= */
-
 const introScreen = document.getElementById("introScreen");
 const introSkip = document.getElementById("introSkip");
 const introClose = document.getElementById("introClose");
 
 function closeIntro(){
   if(!introScreen) return;
-
   introScreen.classList.add("hide");
   document.body.classList.remove("intro-active");
-  
 }
 
-  // SHOW INTRO ON EVERY RELOAD
 document.body.classList.add("intro-active");
+setTimeout(() => { closeIntro(); }, 4500);
 
-setTimeout(() => {
-  closeIntro();
-}, 4500);
-
-
-introSkip.addEventListener("click",closeIntro);
-introClose.addEventListener("click",closeIntro);
-
-
-/* =========================
-   SEARCH + FILTER
-========================= */
+if(introSkip) introSkip.addEventListener("click", closeIntro);
+if(introClose) introClose.addEventListener("click", closeIntro);
 
 const searchInput = document.getElementById("search");
 const appCards = document.querySelectorAll(".app-card");
 const categoryButtons = document.querySelectorAll(".category");
 const noResults = document.getElementById("noResults");
-
 let selectedCategory = "all";
 
-
 function filterApps(){
-
-  const searchText =
-    searchInput.value.toLowerCase().trim();
-
+  const searchText = searchInput.value.toLowerCase().trim();
   let visible = 0;
 
   appCards.forEach(card => {
-
-    const text =
-      card.innerText.toLowerCase();
-
-    const category =
-      card.dataset.category || "all";
-
-    const matchesSearch =
-      text.includes(searchText);
-
-    const matchesCategory =
-      selectedCategory === "all" ||
-      category === selectedCategory;
+    const text = card.innerText.toLowerCase();
+    const category = card.dataset.category || "all";
+    const matchesSearch = text.includes(searchText);
+    const matchesCategory = selectedCategory === "all" || category === selectedCategory;
 
     if(matchesSearch && matchesCategory){
-
       card.style.display = "";
-
       visible++;
-
     }else{
-
       card.style.display = "none";
-
     }
-
   });
 
-  noResults.style.display =
-    visible === 0 ? "block" : "none";
+  if(noResults) noResults.style.display = visible === 0 ? "block" : "none";
 }
 
-
-searchInput.addEventListener(
-  "input",
-  filterApps
-);
-
+if(searchInput) searchInput.addEventListener("input", filterApps);
 
 categoryButtons.forEach(button => {
-
-  button.addEventListener("click",() => {
-
-    categoryButtons.forEach(btn => {
-      btn.classList.remove("active");
-    });
-
+  button.addEventListener("click", () => {
+    categoryButtons.forEach(btn => btn.classList.remove("active"));
     button.classList.add("active");
-
-    selectedCategory =
-      button.dataset.category;
-
+    selectedCategory = button.dataset.category;
     filterApps();
-
   });
-
 });
-
 </script>
-
 </body>
 </html>
