@@ -203,8 +203,11 @@ async function sendChat(){
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
+  if(!document.querySelector('link[href*="favicon"]')){
+    const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='favicon.svg';document.head.appendChild(f);
+  }
   if(!document.querySelector('link[href*="force-drawer"]')){
-    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=3';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=4';document.head.appendChild(l);
   }
   document.body.insertAdjacentHTML('afterbegin', introHTML());
   setTimeout(skipIntro, 2200);
