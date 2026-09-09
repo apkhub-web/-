@@ -54,13 +54,15 @@ function cardHTML(a,i){
 }
 
 function initCursor(){
-  if(window.matchMedia('(pointer: coarse)').matches) return;
+  if(window.matchMedia('(pointer: coarse)').matches){document.body.classList.add('touch');return;}
   const c=document.createElement('div');c.className='cursor';
   const d=document.createElement('div');d.className='cursor-dot';
   document.body.appendChild(c);document.body.appendChild(d);
   document.addEventListener('mousemove',e=>{
     c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';
     d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';
+    // open drawer when cursor near left edge
+    if(e.clientX < 28) openSide();
   });
   document.querySelectorAll('a,button,.card,.platform,.chip').forEach(el=>{
     el.addEventListener('mouseenter',()=>c.classList.add('hover'));
@@ -70,9 +72,10 @@ function initCursor(){
 
 function sideHTML(){
   return `
+  <div class="edge-hint" id="edgeHint">⬇</div>
   <button class="side-toggle" id="sideToggle" onclick="toggleSide()" aria-label="Download panel">⬇ App</button>
   <div class="side-backdrop" id="sideBackdrop" onclick="closeSide()"></div>
-  <aside class="side" id="sidePanel">
+  <aside class="side" id="sidePanel" onmouseleave="onSideLeave(event)">
     <div class="side-top">
       <div class="logo"><i>A</i>APK<span>Hub</span></div>
       <button class="side-close" onclick="closeSide()">✕</button>
@@ -82,22 +85,75 @@ function sideHTML(){
     <div class="platform soon"><div class="pi">🪟</div><div><b>Windows</b><small>Coming soon</small></div></div>
     <div class="platform soon"><div class="pi">🍎</div><div><b>iOS</b><small>Coming soon</small></div></div>
     <div class="platform soon"><div class="pi">💻</div><div><b>Mac</b><small>Coming soon</small></div></div>
-    <a class="dl-main" href="${APP_APK_URL}" target="_blank" rel="noopener">↓ Download Android APK</a>
+    <button class="dl-main" type="button" onclick="confirmDownload()">↓ Download Android APK</button>
     <p class="side-note">Safe, fast & free. Always scan APKs before installing. For educational use only.</p>
-  </aside>`;
+  </aside>
+  <div class="popup-overlay" id="welcomePopup">
+    <div class="popup-box">
+      <h3>⚠️ Disclaimer & Tutorial</h3>
+      <p><b>Disclaimer:</b> All apps/games are for educational purposes only. Use at your own risk. Always scan APKs before installing.</p>
+      <p style="margin-top:10px"><b>How to download apps:</b></p>
+      <ol>
+        <li>App card pe View Details → Download</li>
+        <li>Vplink ads skip karo</li>
+        <li>MediaFire se APK lo</li>
+        <li>Unknown sources allow karke install</li>
+      </ol>
+      <p>Full guide Tutorials page pe hai.</p>
+      <div class="popup-btns"><button class="btn-ok" onclick="closeWelcome()">Samajh gaya ✓</button></div>
+    </div>
+  </div>
+  <div class="popup-overlay" id="dlPopup">
+    <div class="popup-box">
+      <h3>📥 Download Notice</h3>
+      <p>Download se pehle yaad rakho:</p>
+      <ol>
+        <li>APK ko antivirus se scan karo</li>
+        <li>Apne risk pe install karo</li>
+        <li>Educational use only</li>
+      </ol>
+      <div class="popup-btns">
+        <button class="btn-cancel" onclick="closeDl()">Cancel</button>
+        <button class="btn-ok" id="dlGo">Continue ↓</button>
+      </div>
+    </div>
+  </div>`;
 }
 
-function toggleSide(){
-  const p=document.getElementById('sidePanel');
-  const b=document.getElementById('sideBackdrop');
-  const open=p.classList.toggle('open');
-  b.classList.toggle('show', open);
-  document.body.classList.toggle('side-open', open);
+function openSide(){
+  document.getElementById('sidePanel')?.classList.add('open');
+  document.getElementById('sideBackdrop')?.classList.add('show');
+  document.body.classList.add('side-open');
 }
 function closeSide(){
   document.getElementById('sidePanel')?.classList.remove('open');
   document.getElementById('sideBackdrop')?.classList.remove('show');
   document.body.classList.remove('side-open');
+}
+function toggleSide(){
+  const p=document.getElementById('sidePanel');
+  if(p.classList.contains('open')) closeSide(); else openSide();
+}
+function onSideLeave(e){
+  // only auto-close on desktop mouse leave
+  if(window.matchMedia('(pointer: fine)').matches){
+    // if related target is still inside panel, ignore
+    if(e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
+    closeSide();
+  }
+}
+
+function confirmDownload(){
+  document.getElementById('dlPopup').classList.add('show');
+  document.getElementById('dlGo').onclick=function(){
+    document.getElementById('dlPopup').classList.remove('show');
+    window.open(APP_APK_URL,'_blank');
+  };
+}
+function closeDl(){document.getElementById('dlPopup').classList.remove('show');}
+function closeWelcome(){
+  document.getElementById('welcomePopup').classList.remove('show');
+  localStorage.setItem('apkhub_web_welcome','1');
 }
 
 function navHTML(active){
@@ -128,4 +184,11 @@ async function sendChat(){
   }catch(e){document.getElementById('chatMessages').lastChild.remove();addMsg('Network error. Internet check karo.','bot');}
 }
 
-window.addEventListener('DOMContentLoaded',()=>{initCursor();});
+window.addEventListener('DOMContentLoaded',()=>{
+  initCursor();
+  // layout is full width now - side is overlay drawer
+  document.querySelector('.layout')?.classList.add('full');
+  if(!localStorage.getItem('apkhub_web_welcome')){
+    setTimeout(()=>document.getElementById('welcomePopup')?.classList.add('show'),600);
+  }
+});
