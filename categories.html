@@ -1,1 +1,46 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>APK Hub — Categories</title><link rel="stylesheet" href="styles.css"></head><body><div class="wrap"><nav class="nav"><a class="brand" href="index.html">APK <span>Hub</span></a><div class="links"><a href="index.html">Home</a><a class="active" href="categories.html">Categories</a><a href="apps.html">Apps</a><a href="games.html">Games</a><a href="tutorials.html">Tutorials</a><a href="ai-help.html">AI Help</a><a href="about.html">About</a></div></nav><main class="section"><span class="badge">BROWSE</span><h1>Categories</h1><p class="muted">Find Android content by type.</p><div class="grid"><a class="card" href="apps.html"><div class="ico">📱</div><h3>Apps</h3><p>Productivity, social, media and tools.</p></a><a class="card" href="games.html"><div class="ico">🎮</div><h3>Games</h3><p>Explore gaming content.</p></a><a class="card" href="tutorials.html"><div class="ico">🛠️</div><h3>Tutorials</h3><p>Android guides and how-tos.</p></a><a class="card" href="ai-help.html"><div class="ico">✦</div><h3>AI Help</h3><p>Get quick guidance.</p></a></div></main><footer class="footer">© 2026 APK Hub</footer></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — Categories</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <h1 style="font-size:34px;margin-bottom:8px">Categories</h1>
+      <p style="color:var(--muted);margin-bottom:22px">Pick a category to explore faster.</p>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
+<script>
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('Categories');
+document.getElementById('chatMount').innerHTML=chatHTML();
+const CATS=[
+  {key:'games',icon:'🎮',name:'Games',href:'games.html'},
+  {key:'video',icon:'🎬',name:'Video',href:'apps.html'},
+  {key:'tools',icon:'🛠',name:'Tools',href:'apps.html'},
+  {key:'music',icon:'🎵',name:'Music',href:'apps.html'},
+  {key:'photo',icon:'📷',name:'Photo',href:'apps.html'},
+  {key:'social',icon:'📱',name:'Social',href:'apps.html'}
+];
+document.getElementById('grid').innerHTML=CATS.map((c,i)=>{
+  const n=APPS.filter(a=>a.cat===c.key).length;
+  return `<a class="card" href="${c.href}" style="animation-delay:${i*0.05}s;text-align:center">
+    <div class="c-icon" style="margin:0 auto 12px;font-size:28px">${c.icon}</div>
+    <div class="c-name">${c.name}</div>
+    <div class="c-ver">${n} items</div>
+  </a>`;
+}).join('');
+</script>
+</body>
+</html>
