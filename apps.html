@@ -1,1 +1,42 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>APK Hub — Apps</title><style>body{background:#05070b;color:#fff;font-family:system-ui;margin:0}.w{max-width:1100px;margin:auto;padding:20px}.nav{display:flex;gap:12px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid #1b2431}.nav a{color:#9aa6b7;text-decoration:none;font-size:13px;font-weight:800}.nav a:hover{color:#39ed82}h1{font-size:48px;margin:65px 0 10px}.p{color:#8490a2}.g{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:35px}.c{padding:22px;border:1px solid #1b2431;border-radius:20px;background:#0c121c}.c b{font-size:16px}.c p{color:#8490a2;font-size:12px}.btn{display:inline-block;margin-top:10px;padding:10px 14px;background:#39ed82;color:#031008;border-radius:9px;text-decoration:none;font-size:11px;font-weight:900}@media(max-width:700px){.g{grid-template-columns:1fr}h1{font-size:38px}}</style></head><body><div class="w"><nav class="nav"><a href="index.html">Home</a><a href="categories.html">Categories</a><a href="apps.html">Apps</a><a href="games.html">Games</a><a href="tutorials.html">Tutorials</a><a href="ai-help.html">AI Help</a><a href="about.html">About</a></nav><h1>Apps</h1><p class="p">Discover useful Android applications.</p><div class="g"><div class="c"><b>Social Apps</b><p>Chat, community and social tools.</p><a class="btn" href="#">View Apps</a></div><div class="c"><b>Video Apps</b><p>Streaming and video utilities.</p><a class="btn" href="#">View Apps</a></div><div class="c"><b>Tools</b><p>Everyday Android utilities.</p><a class="btn" href="#">View Apps</a></div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — Apps</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <h1 class="hero" style="padding-top:8px;font-size:34px;margin-bottom:8px">All Apps</h1>
+      <p style="color:var(--muted);margin-bottom:18px">Browse premium apps, tools, editors and more.</p>
+      <div class="search"><span class="ic">⌕</span><input id="q" placeholder="Search apps..." oninput="render()"></div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
+<script>
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('Apps');
+document.getElementById('chatMount').innerHTML=chatHTML();
+let filter='all';
+const cats=[['all','✨ All'],['video','🎬 Video'],['tools','🛠 Tools'],['music','🎵 Music'],['photo','📷 Photo'],['social','📱 Social']];
+document.getElementById('chips').innerHTML=cats.map(([k,l])=>`<button class="chip ${k==='all'?'active':''}" data-k="${k}">${l}</button>`).join('');
+document.querySelectorAll('#chips .chip').forEach(c=>c.onclick=()=>{filter=c.dataset.k;document.querySelectorAll('#chips .chip').forEach(x=>x.classList.toggle('active',x===c));render();});
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const list=APPS.filter(a=>a.cat!=='games'&&(filter==='all'||a.cat===filter)&&(a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)));
+  document.getElementById('grid').innerHTML=list.map((a,i)=>cardHTML(a,i)).join('')||'<p class="muted">Nothing found</p>';
+}
+render();
+</script>
+</body>
+</html>
