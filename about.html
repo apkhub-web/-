@@ -1,1 +1,40 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>APK Hub — About</title><style>body{background:#05070b;color:#fff;font-family:system-ui;margin:0}.w{max-width:900px;margin:auto;padding:20px}.nav{display:flex;gap:12px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid #1b2431}.nav a{color:#9aa6b7;text-decoration:none;font-size:13px;font-weight:800}.nav a:hover{color:#39ed82}main{padding:90px 0}h1{font-size:52px;margin:0 0 15px}.p{color:#8490a2;line-height:1.8}.box{margin-top:25px;padding:25px;border:1px solid #1b2431;border-radius:20px;background:#0c121c}@media(max-width:700px){h1{font-size:40px}}</style></head><body><div class="w"><nav class="nav"><a href="index.html">Home</a><a href="categories.html">Categories</a><a href="apps.html">Apps</a><a href="games.html">Games</a><a href="tutorials.html">Tutorials</a><a href="ai-help.html">AI Help</a><a href="about.html">About</a></nav><main><h1>About APK Hub</h1><p class="p">APK Hub is a modern Android discovery website built to make apps, games, tutorials and helpful resources easier to explore.</p><div class="box"><b>Our focus</b><p class="p">Clean navigation, useful information, fast browsing and a better mobile experience.</p></div></main></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — About</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <h1 style="font-size:34px;margin-bottom:18px">About & Legal</h1>
+      <div class="legal"><h3>📄 About</h3><p>APK Hub is a free platform to discover premium Android apps, mods and games. We only provide short links. Use content responsibly.</p></div>
+      <div class="legal"><h3>⚠️ Disclaimer</h3><p>All apps/games are for educational purposes. Use at your own risk. Always scan APKs before installing. We are not responsible for any damage or account issues.</p></div>
+      <div class="legal"><h3>🔒 Privacy Policy</h3><p>We do not collect personal data on this static website. Ratings are stored only in your browser (localStorage).</p></div>
+      <div class="legal contact">
+        <h3>📞 Contact / Social</h3>
+        <a href="https://discord.gg/PrmCsM5TX" target="_blank">💬 Discord Server</a>
+        <a href="https://discordapp.com/users/1211342202442223628" target="_blank">👤 Discord Profile</a>
+        <a href="https://www.instagram.com/naseemgame.r?igsh=ZndkenpxYmk2cWpi" target="_blank">📸 Instagram</a>
+        <a href="https://www.tiktok.com/@naseemgame_r?_t=ZS-8yeXB5jhgcU&_r=1" target="_blank">🎵 TikTok</a>
+        <a href="https://www.facebook.com/share/14JGkxjxDQF/" target="_blank">📘 Facebook</a>
+        <a href="https://youtube.com/@naseemgame.r?si=ssVhhnYGD4Wratu1" target="_blank">▶️ YouTube</a>
+      </div>
+    </div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
+<script>
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('About');
+document.getElementById('chatMount').innerHTML=chatHTML();
+</script>
+</body>
+</html>
