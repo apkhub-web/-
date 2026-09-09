@@ -1,5 +1,5 @@
-/* APK Hub shared data - update WORKER_URL after you create new Cloudflare Worker */
-const WORKER_URL = "https://YOUR-NEW-WORKER.workers.dev";
+const WORKER_URL = "https://apkhub-web-chat.apkhub-web.workers.dev";
+const APP_APK_URL = "https://download1085.mediafire.com/o6bv8ruspn2glJyyBA7evLtPyG7gNcE3LlYX_KaA4EskHSNgbRtGpHajBl4o7DtL74ImLA8Hs0OrU0RqR9uNYoVgEyKM1toYVUzUtE70K-HWEfFmwxrDdfGd3jAJ1m9pi75vP9mCyzVPlFEFkVfxIRd5JrhS4QWq_G4utLqXtb5eGERA/lvu5n4x6smfjafk/apk+hub.apk";
 
 const APPS = [
   {id:"inshot",name:"InShot",ver:"v2.222.1548 (Pro)",desc:"Powerful video & photo editor with pro tools unlocked.",cat:"video",icon:"✂️",badge:"PRO",link:"https://vplink.in/PSWRyG",rating:4.8},
@@ -54,6 +54,7 @@ function cardHTML(a,i){
 }
 
 function initCursor(){
+  if(window.matchMedia('(pointer: coarse)').matches) return;
   const c=document.createElement('div');c.className='cursor';
   const d=document.createElement('div');d.className='cursor-dot';
   document.body.appendChild(c);document.body.appendChild(d);
@@ -68,16 +69,35 @@ function initCursor(){
 }
 
 function sideHTML(){
-  return `<aside class="side">
-    <div class="logo"><i>A</i>APK<span>Hub</span></div>
+  return `
+  <button class="side-toggle" id="sideToggle" onclick="toggleSide()" aria-label="Download panel">⬇ App</button>
+  <div class="side-backdrop" id="sideBackdrop" onclick="closeSide()"></div>
+  <aside class="side" id="sidePanel">
+    <div class="side-top">
+      <div class="logo"><i>A</i>APK<span>Hub</span></div>
+      <button class="side-close" onclick="closeSide()">✕</button>
+    </div>
     <h2>Download Our App</h2>
     <div class="platform active"><div class="pi">🤖</div><div><b>Android</b><small>APK ready to install</small></div></div>
     <div class="platform soon"><div class="pi">🪟</div><div><b>Windows</b><small>Coming soon</small></div></div>
     <div class="platform soon"><div class="pi">🍎</div><div><b>iOS</b><small>Coming soon</small></div></div>
     <div class="platform soon"><div class="pi">💻</div><div><b>Mac</b><small>Coming soon</small></div></div>
-    <button class="dl-main" onclick="alert('Android APK link jald add hoga / GitHub Releases se download karo')">↓ Download Android APK</button>
+    <a class="dl-main" href="${APP_APK_URL}" target="_blank" rel="noopener">↓ Download Android APK</a>
     <p class="side-note">Safe, fast & free. Always scan APKs before installing. For educational use only.</p>
   </aside>`;
+}
+
+function toggleSide(){
+  const p=document.getElementById('sidePanel');
+  const b=document.getElementById('sideBackdrop');
+  const open=p.classList.toggle('open');
+  b.classList.toggle('show', open);
+  document.body.classList.toggle('side-open', open);
+}
+function closeSide(){
+  document.getElementById('sidePanel')?.classList.remove('open');
+  document.getElementById('sideBackdrop')?.classList.remove('show');
+  document.body.classList.remove('side-open');
 }
 
 function navHTML(active){
@@ -102,7 +122,6 @@ async function sendChat(){
   const input=document.getElementById('chatInput');const text=input.value.trim();if(!text)return;
   addMsg(text,'user');input.value='';addMsg('Thinking...','bot');
   try{
-    if(WORKER_URL.includes('YOUR-NEW-WORKER')){document.getElementById('chatMessages').lastChild.remove();addMsg('Chatbot Worker URL set nahi hua. Naya Cloudflare Worker bana kar data.js mein WORKER_URL update karo.','bot');return;}
     const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});
     const data=await res.json();document.getElementById('chatMessages').lastChild.remove();
     addMsg(data.reply||('Error: '+(data.error||'Problem')),'bot');
