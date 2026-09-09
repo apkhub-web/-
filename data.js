@@ -58,11 +58,12 @@ function initCursor(){
   const c=document.createElement('div');c.className='cursor';
   const d=document.createElement('div');d.className='cursor-dot';
   document.body.appendChild(c);document.body.appendChild(d);
+  let edgeTimer=null;
   document.addEventListener('mousemove',e=>{
     c.style.left=e.clientX+'px';c.style.top=e.clientY+'px';
     d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';
-    // open drawer when cursor near left edge
-    if(e.clientX < 28) openSide();
+    if(e.clientX < 22){ if(!edgeTimer) edgeTimer=setTimeout(()=>openSide(),180); }
+    else { clearTimeout(edgeTimer); edgeTimer=null; }
   });
   document.querySelectorAll('a,button,.card,.platform,.chip').forEach(el=>{
     el.addEventListener('mouseenter',()=>c.classList.add('hover'));
@@ -72,7 +73,7 @@ function initCursor(){
 
 function sideHTML(){
   return `
-  <div class="edge-hint" id="edgeHint">⬇</div>
+  <div class="edge-hint" id="edgeHint" onclick="openSide()">⬇</div>
   <button class="side-toggle" id="sideToggle" onclick="toggleSide()" aria-label="Download panel">⬇ App</button>
   <div class="side-backdrop" id="sideBackdrop" onclick="closeSide()"></div>
   <aside class="side" id="sidePanel" onmouseleave="onSideLeave(event)">
@@ -132,17 +133,14 @@ function closeSide(){
 }
 function toggleSide(){
   const p=document.getElementById('sidePanel');
-  if(p.classList.contains('open')) closeSide(); else openSide();
+  if(p?.classList.contains('open')) closeSide(); else openSide();
 }
 function onSideLeave(e){
-  // only auto-close on desktop mouse leave
   if(window.matchMedia('(pointer: fine)').matches){
-    // if related target is still inside panel, ignore
     if(e.relatedTarget && e.currentTarget.contains(e.relatedTarget)) return;
     closeSide();
   }
 }
-
 function confirmDownload(){
   document.getElementById('dlPopup').classList.add('show');
   document.getElementById('dlGo').onclick=function(){
@@ -158,9 +156,7 @@ function closeWelcome(){
 
 function navHTML(active){
   const items=[['index.html','Home'],['apps.html','Apps'],['games.html','Games'],['categories.html','Categories'],['tutorials.html','Tutorials'],['about.html','About'],['ai-help.html','AI Help']];
-  return `<div class="topnav">
-    <div class="nav-links">${items.map(([h,l])=>`<a href="${h}" class="${active===l?'active':''}">${l}</a>`).join('')}</div>
-  </div>`;
+  return `<div class="topnav"><div class="nav-links">${items.map(([h,l])=>`<a href="${h}" class="${active===l?'active':''}">${l}</a>`).join('')}</div></div>`;
 }
 
 function chatHTML(){
@@ -172,23 +168,50 @@ function chatHTML(){
   </div>`;
 }
 
+function introHTML(){
+  return `<div class="site-intro" id="siteIntro">
+    <div class="site-intro-inner">
+      <div class="site-intro-logo"><i>A</i>APK<span>Hub</span></div>
+      <p>DISCOVER • DOWNLOAD • ENJOY</p>
+      <button class="intro-skip" onclick="skipIntro()">Skip →</button>
+    </div>
+  </div>`;
+}
+function skipIntro(){
+  const el=document.getElementById('siteIntro');
+  if(el){el.classList.add('hide'); setTimeout(()=>el.remove(),500);}
+}
+
 function toggleChat(){document.getElementById('chatPanel').classList.toggle('open');}
 function addMsg(t,type){const d=document.createElement('div');d.className='msg '+type;d.innerHTML=t;const m=document.getElementById('chatMessages');m.appendChild(d);m.scrollTop=99999;}
+
+const SYSTEM_RULES = `You are APK Hub Helper. Rules you MUST follow:
+1) Only help with: using APK Hub website, downloading listed apps via our links, Vplink skip steps, Android install steps, and general safe-use tips.
+2) NEVER explain how to create, build, mod, crack, patch, reverse-engineer, or pirate any APK/app/game.
+3) NEVER give steps for malware, keygens, paid unlock hacks, or bypassing app security.
+4) If user asks how to make mods / crack APK / unpaid premium unlock methods, refuse politely in simple Urdu+English: say this is not allowed on APK Hub, only download/install help is available.
+5) Keep answers short and helpful.`;
+
 async function sendChat(){
   const input=document.getElementById('chatInput');const text=input.value.trim();if(!text)return;
   addMsg(text,'user');input.value='';addMsg('Thinking...','bot');
   try{
-    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});
+    const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text, system:SYSTEM_RULES})});
     const data=await res.json();document.getElementById('chatMessages').lastChild.remove();
     addMsg(data.reply||('Error: '+(data.error||'Problem')),'bot');
   }catch(e){document.getElementById('chatMessages').lastChild.remove();addMsg('Network error. Internet check karo.','bot');}
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
+  if(!document.querySelector('link[href*="force-drawer"]')){
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=3';document.head.appendChild(l);
+  }
+  document.body.insertAdjacentHTML('afterbegin', introHTML());
+  setTimeout(skipIntro, 2200);
   initCursor();
-  // layout is full width now - side is overlay drawer
   document.querySelector('.layout')?.classList.add('full');
+  closeSide();
   if(!localStorage.getItem('apkhub_web_welcome')){
-    setTimeout(()=>document.getElementById('welcomePopup')?.classList.add('show'),600);
+    setTimeout(()=>document.getElementById('welcomePopup')?.classList.add('show'), 2600);
   }
 });
