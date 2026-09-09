@@ -1,1 +1,55 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>APK Hub — Home</title><style>body{margin:0;background:#05070b;color:#f7f9fc;font-family:Inter,system-ui,sans-serif}a{color:inherit;text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:0 20px}.nav{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #18202c}.brand{font-weight:900;font-size:22px}.brand span{color:#39ed82}.links{display:flex;gap:6px;flex-wrap:wrap}.links a{padding:10px 12px;border-radius:10px;color:#94a0b2;font-size:12px;font-weight:800}.links a:hover,.links a.active{background:#101824;color:#39ed82}.hero{text-align:center;padding:100px 0 70px}.badge{display:inline-block;padding:8px 13px;border:1px solid #244b38;border-radius:99px;color:#39ed82;background:#0b1912;font-size:11px;font-weight:900}.hero h1{font-size:clamp(46px,8vw,82px);line-height:1;letter-spacing:-4px;margin:22px 0 15px}.grad{color:#39ed82}.hero p{max-width:650px;margin:auto;color:#8995a7;line-height:1.7}.buttons{margin-top:28px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.btn{padding:13px 18px;border-radius:12px;background:#39ed82;color:#031008;font-weight:900;font-size:12px}.btn.alt{background:#101824;color:#fff;border:1px solid #202b39}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-bottom:80px}.card{padding:24px;border:1px solid #1b2431;border-radius:20px;background:#0c121c}.card b{font-size:16px}.card p{color:#7f8b9c;font-size:12px;line-height:1.6}.ico{font-size:30px;margin-bottom:15px}@media(max-width:700px){.links{display:none}.grid{grid-template-columns:1fr}.hero{text-align:left;padding:65px 0}.buttons{justify-content:flex-start}}</style></head><body><div class="wrap"><nav class="nav"><a class="brand" href="index.html">APK <span>Hub</span></a><div class="links"><a class="active" href="index.html">Home</a><a href="categories.html">Categories</a><a href="apps.html">Apps</a><a href="games.html">Games</a><a href="tutorials.html">Tutorials</a><a href="ai-help.html">AI Help</a><a href="about.html">About</a></div></nav><main class="hero"><span class="badge">● APK HUB</span><h1>Everything Android.<br><span class="grad">One clean place.</span></h1><p>Discover apps, games, categories, tutorials and smart AI help — with a fast, modern experience on every device.</p><div class="buttons"><a class="btn" href="apps.html">Explore Apps</a><a class="btn alt" href="games.html">Explore Games</a></div></main><section class="grid"><a class="card" href="categories.html"><div class="ico">◈</div><b>Categories</b><p>Browse Android content by category and find what you need faster.</p></a><a class="card" href="tutorials.html"><div class="ico">▣</div><b>Tutorials</b><p>Simple guides for installing, updating and using Android apps safely.</p></a><a class="card" href="ai-help.html"><div class="ico">✦</div><b>AI Help</b><p>Get quick answers and recommendations from the APK Hub AI assistant.</p></a></section></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — Home</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <div class="hero">
+        <div class="badge"><span style="width:7px;height:7px;border-radius:50%;background:#39ed82;display:inline-block;box-shadow:0 0 10px #39ed82"></span> Fresh apps & games weekly</div>
+        <h1>Your world of<br><span class="grad">Android Apps</span></h1>
+        <p>Premium apps, mods & games — clean UI, fast search, safe download guides, and smart AI help. Built for a desktop-class experience.</p>
+        <div class="search"><span class="ic">⌕</span><input id="homeSearch" placeholder="Search apps, games, tools..." oninput="onSearch(this.value)"></div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="count">0</b><span>APPS & GAMES</span></div>
+        <div class="stat"><b>24/7</b><span>ONLINE</span></div>
+        <div class="stat"><b>FREE</b><span>DOWNLOAD</span></div>
+      </div>
+      <div class="sec-head"><h3>🔥 Trending Now</h3><a href="apps.html">View all →</a></div>
+      <div class="grid" id="trend"></div>
+      <div class="sec-head" style="margin-top:32px"><h3>Browse Categories</h3><a href="categories.html">See all →</a></div>
+      <div class="chips">
+        <a class="chip" href="games.html">🎮 Games</a>
+        <a class="chip" href="apps.html">📱 Apps</a>
+        <a class="chip" href="categories.html">🏷️ Categories</a>
+        <a class="chip" href="tutorials.html">📖 Tutorials</a>
+      </div>
+    </div>
+    <div class="footer">© 2026 APK Hub · Educational use only · Always scan APKs</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
+<script>
+document.getElementById('sideMount').innerHTML = sideHTML();
+document.getElementById('navMount').innerHTML = navHTML('Home');
+document.getElementById('chatMount').innerHTML = chatHTML();
+document.getElementById('count').textContent = APPS.length + '+';
+document.getElementById('trend').innerHTML = APPS.slice(0,8).map((a,i)=>cardHTML(a,i)).join('');
+function onSearch(v){
+  if(!v.trim()){document.getElementById('trend').innerHTML=APPS.slice(0,8).map((a,i)=>cardHTML(a,i)).join('');return;}
+  const q=v.toLowerCase();
+  const list=APPS.filter(a=>a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)||a.cat.includes(q));
+  document.getElementById('trend').innerHTML=list.length?list.map((a,i)=>cardHTML(a,i)).join(''):'<p class="muted">Nothing found</p>';
+}
+</script>
+</body>
+</html>
