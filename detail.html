@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — Details</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content" id="box">Loading...</div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
+<script>
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('Apps');
+document.getElementById('chatMount').innerHTML=chatHTML();
+const id=new URLSearchParams(location.search).get('id');
+const a=APPS.find(x=>x.id===id);
+if(!a){document.getElementById('box').innerHTML='<p>App not found. <a href="apps.html" style="color:var(--green)">Back to apps</a></p>';}
+else{
+  const key='rate_'+a.id;
+  let user=parseInt(localStorage.getItem(key)||0);
+  function stars(){
+    let h='';for(let i=1;i<=5;i++)h+=`<span class="${i<=user?'on':''}" onclick="setR(${i})">★</span>`;return h;
+  }
+  window.setR=function(n){user=n;localStorage.setItem(key,n);document.getElementById('st').innerHTML=stars();};
+  document.getElementById('box').innerHTML=`
+    <a href="javascript:history.back()" style="color:var(--green);font-size:13px;font-weight:800">← Back</a>
+    <div class="detail" style="margin-top:18px">
+      <div class="big-icon">${a.icon}</div>
+      <div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <h1 style="font-size:32px">${a.name}</h1>
+          ${a.badge?`<span class="c-badge" style="position:static">${a.badge}</span>`:''}
+        </div>
+        <div style="color:var(--green);font-weight:700;margin:6px 0">${a.ver}</div>
+        <div class="stars" id="st">${stars()}</div>
+        <p style="color:var(--muted);margin:8px 0 4px;font-size:13px">Store rating: ${a.rating} ★ · Category: ${a.cat}</p>
+        <p style="color:#c5cedb;line-height:1.7;margin:14px 0 20px;max-width:640px">${a.desc}<br><br>Download via Vplink short link. Skip ads carefully, then install from MediaFire. Always enable install from unknown sources and scan the APK.</p>
+        <button class="c-btn" style="display:inline-block;width:auto;padding:14px 22px;font-size:14px" onclick="window.open('${a.link}','_blank')">↓ Download Now</button>
+      </div>
+    </div>`;
+}
+</script>
+</body>
+</html>
