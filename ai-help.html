@@ -1,128 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APK Hub — AI Help</title>
-<style>
-body{background:#05070b;color:#fff;font-family:system-ui,-apple-system,sans-serif;margin:0}
-.w{max-width:900px;margin:auto;padding:20px}
-.nav{display:flex;gap:12px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid #1b2431}
-.nav a{color:#9aa6b7;text-decoration:none;font-size:13px;font-weight:800}.nav a:hover{color:#39ed82}
-main{padding:55px 0}h1{font-size:52px;margin:0 0 14px}.p{color:#8490a2;line-height:1.7}
-.chat{margin-top:30px;border:1px solid #234431;border-radius:20px;background:#0b1510;overflow:hidden}
-.messages{height:420px;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
-.msg{max-width:78%;padding:12px 15px;border-radius:14px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
-.bot{align-self:flex-start;background:#111c16;color:#dce9df;border:1px solid #234431}
-.user{align-self:flex-end;background:#39ed82;color:#031008}
-.typing{opacity:.65;font-style:italic}
-.form{display:flex;gap:10px;padding:14px;border-top:1px solid #234431}
-.input{flex:1;min-width:0;background:#070b09;color:#fff;border:1px solid #2b4937;border-radius:12px;padding:13px 14px;outline:none}
-.input:focus{border-color:#39ed82}
-.btn{border:0;padding:12px 18px;background:#39ed82;color:#031008;border-radius:10px;text-decoration:none;font-weight:900;font-size:12px;cursor:pointer}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.status{padding:0 16px 14px;color:#8490a2;font-size:12px;min-height:16px}
-@media(max-width:700px){h1{font-size:40px}.messages{height:55vh}.msg{max-width:88%}.form{align-items:stretch}.btn{padding:12px 14px}}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="w">
-<nav class="nav"><a href="index.html">Home</a><a href="categories.html">Categories</a><a href="apps.html">Apps</a><a href="games.html">Games</a><a href="tutorials.html">Tutorials</a><a href="ai-help.html">AI Help</a><a href="about.html">About</a></nav>
-<main>
-<h1>AI Help ✦</h1>
-<p class="p">Ask about Android apps, APKs, games, installation problems, settings, or troubleshooting.</p>
-<section class="chat" aria-label="APK Hub AI chatbot">
-<div class="messages" id="messages">
-<div class="msg bot">Hi! I’m APK Hub AI. 👋<br>Ask me an Android question and I’ll try to help.</div>
+<div class="layout">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <h1 style="font-size:34px;margin-bottom:8px">🤖 AI Help</h1>
+      <p style="color:var(--muted);margin-bottom:18px">Ask about downloads, install steps, or link skip. Naya Cloudflare Worker URL set karne ke baad chatbot live ho jayega.</p>
+      <div class="legal">
+        <h3>How to enable chatbot</h3>
+        <p>1. Naya Gemini API key banao<br>2. Naya Cloudflare Worker deploy karo<br>3. <code>data.js</code> mein <b>WORKER_URL</b> update karo<br>4. Neeche chat button se test karo</p>
+      </div>
+      <p style="color:var(--muted);margin-top:16px">Ya seedha bottom-right 🤖 button use karo (har page pe available).</p>
+    </div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
 </div>
-<form class="form" id="chatForm">
-<input class="input" id="messageInput" type="text" autocomplete="off" placeholder="Ask APK Hub AI..." aria-label="Message">
-<button class="btn" id="sendBtn" type="submit">Send</button>
-</form>
-<div class="status" id="status" aria-live="polite"></div>
-</section>
-</main>
-</div>
+<div id="chatMount"></div>
+<script src="data.js"></script>
 <script>
-const WORKER_URL = 'https://apkmod-app.pages.dev';
-const form = document.getElementById('chatForm');
-const input = document.getElementById('messageInput');
-const sendBtn = document.getElementById('sendBtn');
-const messages = document.getElementById('messages');
-const status = document.getElementById('status');
-
-function addMessage(text, role) {
-  const el = document.createElement('div');
-  el.className = 'msg ' + role;
-  el.textContent = text;
-  messages.appendChild(el);
-  messages.scrollTop = messages.scrollHeight;
-  return el;
-}
-
-function getReply(data) {
-  if (typeof data === 'string') return data.trim();
-  if (!data || typeof data !== 'object') return '';
-  const keys = ['reply','response','answer','message','text','content','output'];
-  for (const key of keys) {
-    if (typeof data[key] === 'string' && data[key].trim()) return data[key].trim();
-  }
-  if (data.result && typeof data.result === 'string') return data.result.trim();
-  if (data.result && typeof data.result === 'object') return getReply(data.result);
-  if (Array.isArray(data.choices) && data.choices[0]) {
-    const choice = data.choices[0];
-    if (choice.message && typeof choice.message.content === 'string') return choice.message.content.trim();
-    if (typeof choice.text === 'string') return choice.text.trim();
-  }
-  return '';
-}
-
-async function readResponse(response) {
-  const text = await response.text();
-  let data = text;
-  try { data = JSON.parse(text); } catch (_) {}
-  return { data, raw: text };
-}
-
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const message = input.value.trim();
-  if (!message || sendBtn.disabled) return;
-
-  addMessage(message, 'user');
-  input.value = '';
-  sendBtn.disabled = true;
-  status.textContent = 'Thinking...';
-  const typing = addMessage('Thinking…', 'bot');
-  typing.classList.add('typing');
-
-  try {
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json, text/plain, */*' },
-      body: JSON.stringify({ message })
-    });
-
-    const result = await readResponse(response);
-    typing.remove();
-    const reply = getReply(result.data) || result.raw.trim();
-
-    if (!response.ok) {
-      throw new Error(reply || ('Worker returned HTTP ' + response.status));
-    }
-    if (!reply) throw new Error('The AI worker returned an empty reply.');
-
-    addMessage(reply, 'bot');
-    status.textContent = '';
-  } catch (error) {
-    typing.remove();
-    addMessage('Sorry, I could not reach the AI worker right now. Please try again.', 'bot');
-    status.textContent = error && error.message ? error.message : 'Connection error';
-  } finally {
-    sendBtn.disabled = false;
-    input.focus();
-  }
-});
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('AI Help');
+document.getElementById('chatMount').innerHTML=chatHTML();
 </script>
 </body>
 </html>
