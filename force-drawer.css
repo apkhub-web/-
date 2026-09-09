@@ -1,0 +1,45 @@
+.layout{display:block!important;grid-template-columns:none!important;}
+#sidePanel.side,.side{
+  position:fixed!important;left:0!important;top:0!important;bottom:0!important;
+  width:min(320px,88vw)!important;height:100vh!important;z-index:56!important;
+  transform:translateX(-110%)!important;
+  transition:transform .5s cubic-bezier(.2,.9,.2,1)!important;margin:0!important;
+}
+#sidePanel.side.open,.side.open{transform:translateX(0)!important;}
+.side-toggle{display:inline-flex!important;position:fixed!important;left:14px!important;bottom:22px!important;z-index:60!important;}
+.edge-hint{position:fixed!important;left:0!important;top:50%!important;transform:translateY(-50%)!important;z-index:40!important;}
+@media(max-width:980px){.edge-hint{display:none!important;}}
+@media(min-width:981px){.side-toggle{display:none!important;}}
+
+/* Intro splash every load */
+.site-intro{
+  position:fixed;inset:0;z-index:20000;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 30% 20%,rgba(57,237,130,.2),transparent 40%),
+             radial-gradient(circle at 75% 75%,rgba(93,141,255,.15),transparent 40%),#05070c;
+  transition:opacity .5s ease,visibility .5s ease;
+}
+.site-intro.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.site-intro-inner{text-align:center;}
+.site-intro-logo{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  font-size:48px;font-weight:900;letter-spacing:-2px;
+  animation:introPop .7s cubic-bezier(.2,.8,.2,1) both;
+}
+.site-intro-logo i{
+  width:56px;height:56px;border-radius:16px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#39ed82,#14c463);color:#031;font-style:normal;
+  box-shadow:0 0 30px rgba(57,237,130,.45);
+}
+.site-intro-logo span{color:#39ed82;}
+.site-intro-inner p{
+  margin-top:16px;color:#93a0b3;font-size:11px;font-weight:800;letter-spacing:4px;
+  animation:introFade .8s .4s both;
+}
+.intro-skip{
+  margin-top:28px;padding:12px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.06);color:#fff;font-weight:800;font-size:13px;
+  animation:introFade .8s .6s both;
+}
+.intro-skip:hover{background:#39ed82;color:#031;border-color:#39ed82;}
+@keyframes introPop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes introFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
