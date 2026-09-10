@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APK Hub — Home</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="stylesheet" href="styles.css?v=6">
-<link rel="stylesheet" href="force-drawer.css?v=6">
+<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="force-drawer.css?v=7">
 <style>
 .side{position:fixed!important;left:0;top:0;bottom:0;width:min(320px,88vw);height:100vh;z-index:56;
 transform:translateX(-110%)!important;transition:transform .5s cubic-bezier(.2,.9,.2,1)!important;}
@@ -31,22 +31,22 @@ transform:translateX(-110%)!important;transition:transform .5s cubic-bezier(.2,.
         <div class="stat"><b>24/7</b><span>ONLINE</span></div>
         <div class="stat"><b>FREE</b><span>DOWNLOAD</span></div>
       </div>
-      <div class="sec-head"><h3>🔥 Trending Now</h3><a href="apps.html">View all →</a></div>
+      <div class="sec-head"><h3>🔥 Trending Now</h3><a href="apps.html" onclick="markNav()">View all →</a></div>
       <div class="grid" id="trend"></div>
-      <div class="sec-head" style="margin-top:32px"><h3>Browse Categories</h3><a href="categories.html">See all →</a></div>
+      <div class="sec-head" style="margin-top:32px"><h3>Browse Categories</h3><a href="categories.html" onclick="markNav()">See all →</a></div>
       <div class="chips">
-        <a class="chip" href="games.html">🎮 Games</a>
-        <a class="chip" href="apps.html">📱 Apps</a>
-        <a class="chip" href="windows.html">🪟 Windows</a>
-        <a class="chip" href="categories.html">🏷️ Categories</a>
-        <a class="chip" href="tutorials.html">📖 Tutorials</a>
+        <a class="chip" href="games.html" onclick="markNav()">🎮 Games</a>
+        <a class="chip" href="apps.html" onclick="markNav()">📱 Apps</a>
+        <a class="chip" href="windows.html" onclick="markNav()">🪟 Windows</a>
+        <a class="chip" href="categories.html" onclick="markNav()">🏷️ Categories</a>
+        <a class="chip" href="tutorials.html" onclick="markNav()">📖 Tutorials</a>
       </div>
     </div>
     <div class="footer">© 2026 APK Hub · Educational use only · Always scan APKs</div>
   </div>
 </div>
 <div id="chatMount"></div>
-<script src="data.js?v=6"></script>
+<script src="data.js?v=7"></script>
 <script>
 document.getElementById('sideMount').innerHTML = sideHTML();
 document.getElementById('navMount').innerHTML = navHTML('Home');
