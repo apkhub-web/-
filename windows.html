@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APK Hub — Windows</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="force-drawer.css?v=5">
+</head>
+<body>
+<div class="layout full">
+  <div id="sideMount"></div>
+  <div class="main">
+    <div id="navMount"></div>
+    <div class="content">
+      <h1 style="font-size:34px;margin-bottom:8px">🪟 Windows</h1>
+      <p style="color:var(--muted);margin-bottom:22px">Windows softwares & games — more items coming soon.</p>
+
+      <div class="chips" id="chips">
+        <button class="chip active" data-k="all">✨ All</button>
+        <button class="chip" data-k="win-soft">🛠 Windows Softwares</button>
+        <button class="chip" data-k="win-games">🎮 Windows Games</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+    <div class="footer">© 2026 APK Hub</div>
+  </div>
+</div>
+<div id="chatMount"></div>
+<script src="data.js?v=5"></script>
+<script>
+document.getElementById('sideMount').innerHTML=sideHTML();
+document.getElementById('navMount').innerHTML=navHTML('Windows');
+document.getElementById('chatMount').innerHTML=chatHTML();
+
+const WIN_ITEMS = [
+  {id:'win-chrome',name:'Google Chrome',ver:'Latest',desc:'Fast and secure browser for Windows.',cat:'win-soft',icon:'🌐',badge:'SOFT',link:'#',rating:4.8},
+  {id:'win-vlc',name:'VLC Media Player',ver:'3.x',desc:'Play any video or audio format.',cat:'win-soft',icon:'🎬',badge:'SOFT',link:'#',rating:4.9},
+  {id:'win-7zip',name:'7-Zip',ver:'23.x',desc:'Free file archiver with high compression.',cat:'win-soft',icon:'📦',badge:'SOFT',link:'#',rating:4.7},
+  {id:'win-notepadpp',name:'Notepad++',ver:'8.x',desc:'Powerful text and code editor.',cat:'win-soft',icon:'📝',badge:'SOFT',link:'#',rating:4.8},
+  {id:'win-minecraft',name:'Minecraft Java',ver:'Latest',desc:'Block-building sandbox adventure.',cat:'win-games',icon:'⛏️',badge:'GAME',link:'#',rating:4.9},
+  {id:'win-gta',name:'GTA San Andreas',ver:'Classic',desc:'Open-world action classic.',cat:'win-games',icon:'🚗',badge:'GAME',link:'#',rating:4.6},
+  {id:'win-valorant',name:'Valorant',ver:'Live',desc:'Tactical 5v5 shooter.',cat:'win-games',icon:'🔫',badge:'GAME',link:'#',rating:4.5},
+  {id:'win-roblox',name:'Roblox',ver:'Latest',desc:'Play and create endless games.',cat:'win-games',icon:'🧱',badge:'GAME',link:'#',rating:4.4}
+];
+
+let filter='all';
+document.querySelectorAll('#chips .chip').forEach(c=>c.onclick=()=>{
+  filter=c.dataset.k;
+  document.querySelectorAll('#chips .chip').forEach(x=>x.classList.toggle('active',x===c));
+  render();
+});
+
+function winCard(a,i){
+  return `<div class="card" style="animation-delay:${(i%12)*0.04}s">
+    <span class="c-badge">${a.badge}</span>
+    <div class="c-icon">${a.icon}</div>
+    <div class="c-name">${a.name}</div>
+    <div class="c-ver">${a.ver}</div>
+    <div class="c-desc">${a.desc}</div>
+    <span class="c-btn" style="opacity:.7">Coming Soon</span>
+  </div>`;
+}
+function render(){
+  const list=WIN_ITEMS.filter(a=>filter==='all'||a.cat===filter);
+  document.getElementById('grid').innerHTML=list.map((a,i)=>winCard(a,i)).join('')||'<p class="muted">Nothing found</p>';
+}
+render();
+</script>
+</body>
+</html>
