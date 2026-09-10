@@ -4,27 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APK Hub — AI Help</title>
-<link rel="stylesheet" href="styles.css">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css?v=5">
+<link rel="stylesheet" href="force-drawer.css?v=5">
 </head>
 <body>
-<div class="layout">
+<div class="layout full">
   <div id="sideMount"></div>
   <div class="main">
     <div id="navMount"></div>
     <div class="content">
       <h1 style="font-size:34px;margin-bottom:8px">🤖 AI Help</h1>
-      <p style="color:var(--muted);margin-bottom:18px">Ask about downloads, install steps, or link skip. Naya Cloudflare Worker URL set karne ke baad chatbot live ho jayega.</p>
+      <p style="color:var(--muted);margin-bottom:18px">APK Hub ka smart assistant — download, install aur link skip ke sawalon ka jawab yahin milta hai.</p>
+
       <div class="legal">
-        <h3>How to enable chatbot</h3>
-        <p>1. Naya Gemini API key banao<br>2. Naya Cloudflare Worker deploy karo<br>3. <code>data.js</code> mein <b>WORKER_URL</b> update karo<br>4. Neeche chat button se test karo</p>
+        <h3>Kya poochh sakte ho?</h3>
+        <p>• Kisi app ka download kaise karein<br>
+        • Vplink ads kaise skip karein<br>
+        • APK install ka safe tareeqa<br>
+        • Unknown sources enable kaise karein<br>
+        • Site ke features ke bare mein help</p>
       </div>
-      <p style="color:var(--muted);margin-top:16px">Ya seedha bottom-right 🤖 button use karo (har page pe available).</p>
+
+      <div class="legal" style="margin-top:14px">
+        <h3>Kaise use karein?</h3>
+        <p>1. Neeche right corner mein 🤖 button dabao<br>
+        2. Apna sawal type karo<br>
+        3. Enter / send dabao — jawab turant aayega</p>
+      </div>
+
+      <div class="legal" style="margin-top:14px">
+        <h3>Note</h3>
+        <p>Bot sirf APK Hub ke download/install help ke liye hai. Mod banana, crack, ya illegal methods ke sawal support nahi kiye jate.</p>
+      </div>
+
+      <p style="color:var(--muted);margin-top:16px">Abhi chat shuru karne ke liye bottom-right 🤖 button use karo.</p>
     </div>
     <div class="footer">© 2026 APK Hub</div>
   </div>
 </div>
 <div id="chatMount"></div>
-<script src="data.js"></script>
+<script src="data.js?v=5"></script>
 <script>
 document.getElementById('sideMount').innerHTML=sideHTML();
 document.getElementById('navMount').innerHTML=navHTML('AI Help');
