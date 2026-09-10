@@ -154,6 +154,7 @@ function closeWelcome(){
   localStorage.setItem('apkhub_web_welcome','1');
 }
 
+function markNav(){ sessionStorage.setItem('apkhub_from_nav','1'); }
 function navHTML(active){
   const items=[
     ['index.html','Home'],
@@ -165,7 +166,7 @@ function navHTML(active){
     ['about.html','About'],
     ['ai-help.html','AI Help']
   ];
-  return `<div class="topnav"><div class="nav-links">${items.map(([h,l])=>`<a href="${h}" class="${active===l?'active':''}">${l}</a>`).join('')}</div></div>`;
+  return `<div class="topnav"><div class="nav-links">${items.map(([h,l])=>`<a href="${h}" class="${active===l?'active':''}" onclick="markNav()">${l}</a>`).join('')}</div></div>`;
 }
 
 function chatHTML(){
@@ -178,24 +179,30 @@ function chatHTML(){
 }
 
 function introHTML(){
-  return `<div class="site-intro" id="siteIntro">
-    <div class="intro-orbs">
-      <span class="orb o1"></span>
-      <span class="orb o2"></span>
-      <span class="orb o3"></span>
+  return `<div class="intro-screen" id="siteIntro">
+    <div class="intro-grid"></div>
+    <div class="intro-orb"></div>
+    <div class="intro-icon">📱</div>
+    <div class="intro-icon">🎮</div>
+    <div class="intro-icon">🎬</div>
+    <div class="intro-icon">🛠️</div>
+    <div class="intro-icon">🎵</div>
+    <div class="intro-icon">⚡</div>
+    <button class="intro-close" onclick="skipIntro()" title="Close">✕</button>
+    <div class="intro-content">
+      <div class="intro-small">WELCOME TO</div>
+      <div class="intro-logo"><div class="intro-logo-icon">A</div>APK<span>Hub</span></div>
+      <div class="intro-tagline">DISCOVER • DOWNLOAD • ENJOY</div>
     </div>
-    <div class="site-intro-inner">
-      <div class="site-intro-logo"><i>A</i>APK<span>Hub</span></div>
-      <p class="intro-tag">DISCOVER • DOWNLOAD • ENJOY</p>
-      <div class="intro-bar"><span></span></div>
-      <button class="intro-skip" onclick="skipIntro()">Skip →</button>
+    <div class="intro-actions">
+      <button class="intro-skip" onclick="skipIntro()">Skip Intro →</button>
     </div>
   </div>`;
 }
 function skipIntro(){
   const el=document.getElementById('siteIntro');
-  if(el){el.classList.add('hide'); setTimeout(()=>el.remove(),600);}
-  sessionStorage.setItem('apkhub_intro_seen','1');
+  document.body.classList.remove('intro-active');
+  if(el){el.classList.add('hide'); setTimeout(()=>el.remove(),800);}
 }
 
 function toggleChat(){document.getElementById('chatPanel').classList.toggle('open');}
@@ -223,13 +230,16 @@ window.addEventListener('DOMContentLoaded',()=>{
     const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='favicon.svg';document.head.appendChild(f);
   }
   if(!document.querySelector('link[href*="force-drawer"]')){
-    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=6';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=7';document.head.appendChild(l);
   }
-  // Intro ONLY once per browser session — mark immediately
-  if(!sessionStorage.getItem('apkhub_intro_seen')){
-    sessionStorage.setItem('apkhub_intro_seen','1');
+  // Intro on every refresh/reload; skip only when coming from internal nav tabs
+  const fromNav = sessionStorage.getItem('apkhub_from_nav') === '1';
+  if(fromNav){
+    sessionStorage.removeItem('apkhub_from_nav');
+  } else {
+    document.body.classList.add('intro-active');
     document.body.insertAdjacentHTML('afterbegin', introHTML());
-    setTimeout(skipIntro, 3000);
+    setTimeout(skipIntro, 3500);
   }
   initCursor();
   document.querySelector('.layout')?.classList.add('full');
