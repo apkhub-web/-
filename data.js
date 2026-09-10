@@ -223,12 +223,13 @@ window.addEventListener('DOMContentLoaded',()=>{
     const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='favicon.svg';document.head.appendChild(f);
   }
   if(!document.querySelector('link[href*="force-drawer"]')){
-    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=5';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=6';document.head.appendChild(l);
   }
-  // Intro ONLY once per browser session (not on every tab change)
+  // Intro ONLY once per browser session — mark immediately
   if(!sessionStorage.getItem('apkhub_intro_seen')){
+    sessionStorage.setItem('apkhub_intro_seen','1');
     document.body.insertAdjacentHTML('afterbegin', introHTML());
-    setTimeout(skipIntro, 2800);
+    setTimeout(skipIntro, 3000);
   }
   initCursor();
   document.querySelector('.layout')?.classList.add('full');
