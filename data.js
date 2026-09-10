@@ -43,7 +43,7 @@ const APPS = [
 ];
 
 function cardHTML(a,i){
-  return `<a class="card" href="detail.html?id=${a.id}" style="animation-delay:${(i%12)*0.04}s">
+  return `<a class="card" href="detail.html?id=${a.id}" onclick="markNav()" style="animation-delay:${(i%12)*0.04}s">
     ${a.badge?`<span class="c-badge">${a.badge}</span>`:''}
     <div class="c-icon">${a.icon}</div>
     <div class="c-name">${a.name}</div>
@@ -230,9 +230,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='favicon.svg';document.head.appendChild(f);
   }
   if(!document.querySelector('link[href*="force-drawer"]')){
-    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=7';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=8';document.head.appendChild(l);
   }
-  // Intro on every refresh/reload; skip only when coming from internal nav tabs
+  // Intro on every refresh/reload; skip when navigating inside site
   const fromNav = sessionStorage.getItem('apkhub_from_nav') === '1';
   if(fromNav){
     sessionStorage.removeItem('apkhub_from_nav');
@@ -241,6 +241,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     document.body.insertAdjacentHTML('afterbegin', introHTML());
     setTimeout(skipIntro, 3500);
   }
+  // Any internal same-site link click = mark as nav (so intro won't show)
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a');
+    if(!a) return;
+    const href = a.getAttribute('href')||'';
+    if(!href || href.startsWith('http') || href.startsWith('//') || href.startsWith('#') || href.startsWith('mailto:')) return;
+    markNav();
+  }, true);
   initCursor();
   document.querySelector('.layout')?.classList.add('full');
   closeSide();
