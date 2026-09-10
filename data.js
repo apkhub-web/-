@@ -155,7 +155,16 @@ function closeWelcome(){
 }
 
 function navHTML(active){
-  const items=[['index.html','Home'],['apps.html','Apps'],['games.html','Games'],['categories.html','Categories'],['tutorials.html','Tutorials'],['about.html','About'],['ai-help.html','AI Help']];
+  const items=[
+    ['index.html','Home'],
+    ['apps.html','Apps'],
+    ['games.html','Games'],
+    ['windows.html','Windows'],
+    ['categories.html','Categories'],
+    ['tutorials.html','Tutorials'],
+    ['about.html','About'],
+    ['ai-help.html','AI Help']
+  ];
   return `<div class="topnav"><div class="nav-links">${items.map(([h,l])=>`<a href="${h}" class="${active===l?'active':''}">${l}</a>`).join('')}</div></div>`;
 }
 
@@ -170,16 +179,23 @@ function chatHTML(){
 
 function introHTML(){
   return `<div class="site-intro" id="siteIntro">
+    <div class="intro-orbs">
+      <span class="orb o1"></span>
+      <span class="orb o2"></span>
+      <span class="orb o3"></span>
+    </div>
     <div class="site-intro-inner">
       <div class="site-intro-logo"><i>A</i>APK<span>Hub</span></div>
-      <p>DISCOVER • DOWNLOAD • ENJOY</p>
+      <p class="intro-tag">DISCOVER • DOWNLOAD • ENJOY</p>
+      <div class="intro-bar"><span></span></div>
       <button class="intro-skip" onclick="skipIntro()">Skip →</button>
     </div>
   </div>`;
 }
 function skipIntro(){
   const el=document.getElementById('siteIntro');
-  if(el){el.classList.add('hide'); setTimeout(()=>el.remove(),500);}
+  if(el){el.classList.add('hide'); setTimeout(()=>el.remove(),600);}
+  sessionStorage.setItem('apkhub_intro_seen','1');
 }
 
 function toggleChat(){document.getElementById('chatPanel').classList.toggle('open');}
@@ -207,14 +223,17 @@ window.addEventListener('DOMContentLoaded',()=>{
     const f=document.createElement('link');f.rel='icon';f.type='image/svg+xml';f.href='favicon.svg';document.head.appendChild(f);
   }
   if(!document.querySelector('link[href*="force-drawer"]')){
-    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=4';document.head.appendChild(l);
+    const l=document.createElement('link');l.rel='stylesheet';l.href='force-drawer.css?v=5';document.head.appendChild(l);
   }
-  document.body.insertAdjacentHTML('afterbegin', introHTML());
-  setTimeout(skipIntro, 2200);
+  // Intro ONLY once per browser session (not on every tab change)
+  if(!sessionStorage.getItem('apkhub_intro_seen')){
+    document.body.insertAdjacentHTML('afterbegin', introHTML());
+    setTimeout(skipIntro, 2800);
+  }
   initCursor();
   document.querySelector('.layout')?.classList.add('full');
   closeSide();
   if(!localStorage.getItem('apkhub_web_welcome')){
-    setTimeout(()=>document.getElementById('welcomePopup')?.classList.add('show'), 2600);
+    setTimeout(()=>document.getElementById('welcomePopup')?.classList.add('show'), 500);
   }
 });
