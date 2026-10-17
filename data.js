@@ -43,6 +43,69 @@ const APPS = [
   {id:"webtoon",name:"WEBTOON",ver:"v3.9.11 (Premium)",desc:"Read webtoons with premium.",cat:"tools",icon:"📖",badge:"PREMIUM",link:"https://vplink.in/dvy7",rating:4.5}
 ];
 
+
+function norm(s){return (s||"").toLowerCase().replace(/[^a-z0-9+ ]/g," ").replace(/\s+/g," ").trim();}
+function editDist(a,b){
+  if(a===b) return 0;
+  if(!a.length||!b.length) return Math.max(a.length,b.length);
+  const m=[];
+  for(let i=0;i<=b.length;i++) m[i]=[i];
+  for(let j=0;j<=a.length;j++) m[0][j]=j;
+  for(let i=1;i<=b.length;i++){
+    for(let j=1;j<=a.length;j++){
+      m[i][j]=b[i-1]===a[j-1]?m[i-1][j-1]:Math.min(m[i-1][j-1],m[i][j-1],m[i-1][j])+1;
+    }
+  }
+  return m[b.length][a.length];
+}
+const SEARCH_ALIASES={
+  video:["movie","movies","film","films","stream","streaming","watch","drama","series"],
+  music:["song","songs","audio","mp3","player"],
+  photo:["image","images","picture","pictures","edit","editor","filter","filters"],
+  games:["game","play","gaming"],
+  tools:["tool","utility","pdf","vpn"],
+  social:["chat","social"]
+};
+function appBlob(a){return norm([a.name,a.ver,a.desc,a.cat,a.badge,a.id].join(" "));}
+function scoreApp(a,q){
+  const name=norm(a.name), blob=appBlob(a), words=name.split(" ").filter(Boolean);
+  let s=0;
+  if(name===q) s+=200;
+  else if(name.includes(q)) s+=120;
+  if(words.some(w=>w.startsWith(q)||q.startsWith(w)&&w.length>2)) s+=70;
+  if(norm(a.desc).includes(q)) s+=40;
+  if(norm(a.cat).includes(q)||norm(a.ver).includes(q)) s+=25;
+  const aliases=SEARCH_ALIASES[a.cat]||[];
+  if(aliases.some(al=>al===q||al.includes(q)||q.includes(al))) s+=55;
+  if(q.length>=3){
+    let best=99;
+    for(const w of blob.split(" ")){
+      if(w.length<2) continue;
+      if(Math.abs(w.length-q.length)>2 && !w.includes(q) && !q.includes(w)) continue;
+      best=Math.min(best, editDist(q,w.slice(0,Math.max(q.length+1,w.length))));
+      if(w.includes(q)||q.includes(w)) best=Math.min(best,0);
+    }
+    if(best===1) s+=60;
+    else if(best===2 && q.length>=5) s+=35;
+  }
+  return s;
+}
+function searchApps(list, query){
+  const q=norm(query);
+  if(!q) return list.slice();
+  const scored=list.map(a=>({a,s:scoreApp(a,q)})).filter(x=>x.s>0).sort((x,y)=>y.s-x.s||x.a.name.localeCompare(y.a.name));
+  const picked=scored.map(x=>x.a);
+  const ids=new Set(picked.map(a=>a.id));
+  const strong=scored.filter(x=>x.s>=70);
+  if(strong.length){
+    const cats=new Set(strong.map(x=>x.a.cat));
+    const related=list.filter(a=>!ids.has(a.id)&&cats.has(a.cat));
+    related.sort((a,b)=>b.rating-a.rating);
+    return picked.concat(related.slice(0,8));
+  }
+  return picked;
+}
+
 function cardHTML(a,i){
   return `<a class="card" href="detail.html?id=${a.id}" onclick="markNav()" style="animation-delay:${(i%12)*0.04}s">
     ${a.badge?`<span class="c-badge">${a.badge}</span>`:''}

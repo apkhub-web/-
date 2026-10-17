@@ -46,7 +46,7 @@ transform:translateX(-110%)!important;transition:transform .5s cubic-bezier(.2,.
   </div>
 </div>
 <div id="chatMount"></div>
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10"></script>
 <script>
 document.getElementById('sideMount').innerHTML = sideHTML();
 document.getElementById('navMount').innerHTML = navHTML('Home');
@@ -56,8 +56,7 @@ document.getElementById('trend').innerHTML = APPS.slice(0,8).map((a,i)=>cardHTML
 closeSide();
 function onSearch(v){
   if(!v.trim()){document.getElementById('trend').innerHTML=APPS.slice(0,8).map((a,i)=>cardHTML(a,i)).join('');return;}
-  const q=v.toLowerCase();
-  const list=APPS.filter(a=>a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)||a.cat.includes(q));
+  const list=searchApps(APPS, v);
   document.getElementById('trend').innerHTML=list.length?list.map((a,i)=>cardHTML(a,i)).join(''):'<p class="muted">Nothing found</p>';
 }
 </script>

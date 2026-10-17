@@ -22,7 +22,7 @@
   </div>
 </div>
 <div id="chatMount"></div>
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10"></script>
 <script>
 document.getElementById('sideMount').innerHTML=sideHTML();
 document.getElementById('navMount').innerHTML=navHTML('Apps');
@@ -32,8 +32,9 @@ const cats=[['all','✨ All'],['video','🎬 Video'],['tools','🛠 Tools'],['mu
 document.getElementById('chips').innerHTML=cats.map(([k,l])=>`<button class="chip ${k==='all'?'active':''}" data-k="${k}">${l}</button>`).join('');
 document.querySelectorAll('#chips .chip').forEach(c=>c.onclick=()=>{filter=c.dataset.k;document.querySelectorAll('#chips .chip').forEach(x=>x.classList.toggle('active',x===c));render();});
 function render(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  const list=APPS.filter(a=>a.cat!=='games'&&(filter==='all'||a.cat===filter)&&(a.name.toLowerCase().includes(q)||a.desc.toLowerCase().includes(q)));
+  const q=(document.getElementById('q').value||'').trim();
+  let base=APPS.filter(a=>a.cat!=='games'&&(filter==='all'||a.cat===filter));
+  const list=q?searchApps(base,q):base;
   document.getElementById('grid').innerHTML=list.map((a,i)=>cardHTML(a,i)).join('')||'<p class="muted">Nothing found</p>';
 }
 render();
