@@ -7,6 +7,7 @@ const APPS = [
   {id:"meloshort",name:"MeloShort",ver:"2.42.00 (Premium)",desc:"Watch short dramas with premium access.",cat:"video",icon:"📱",badge:"PREMIUM",link:"https://vplink.in/d9BXu",rating:4.5},
   {id:"loktv",name:"LOKTV",ver:"v1.1.0 (VIP)",desc:"Streaming app for shows and movies.",cat:"video",icon:"📺",badge:"VIP",link:"https://vplink.in/iWGd2",rating:4.4},
   {id:"movieshub",name:"MOVIES HUB",ver:"v2.1.5d (Premium)",desc:"Movies hub with premium content access.",cat:"video",icon:"🎬",badge:"PREMIUM",link:"https://vplink.in/TJMVw",rating:4.3},
+  {id:"moviebox",name:"MovieBox Premium",ver:"v4.0.03.0930.03",desc:"Stream movies and shows with premium access.",cat:"video",icon:"🍿",badge:"PREMIUM",link:"https://vplink.in/355u3Y",rating:4.5},
   {id:"prime",name:"Prime Video",ver:"v3.0.465.755 MOD",desc:"Prime Video modded build.",cat:"video",icon:"📺",badge:"MOD",link:"https://vplink.in/1HLBB",rating:4.5},
   {id:"hulu",name:"Hulu",ver:"v6.11.0.63 (Premium)",desc:"Hulu streaming premium mod.",cat:"video",icon:"📡",badge:"PREMIUM",link:"https://vplink.in/4rsj",rating:4.2},
   {id:"adobescan",name:"Adobe Scan",ver:"v26.08.01 (Premium)",desc:"Scan documents to PDF with premium features.",cat:"tools",icon:"📄",badge:"PREMIUM",link:"https://vplink.in/4bGBk",rating:4.7},
@@ -31,7 +32,7 @@ const APPS = [
   {id:"gcclick",name:"GC Auto Clicker",ver:"v2.2.78 (Premium)",desc:"Automatic click helper.",cat:"tools",icon:"👆",badge:"PREMIUM",link:"https://vplink.in/wL3jw",rating:4.3},
   {id:"esound",name:"eSound",ver:"v4.16.29 (Premium)",desc:"Music streaming premium.",cat:"music",icon:"🎶",badge:"PREMIUM",link:"https://vplink.in/Vqt2",rating:4.4},
   {id:"chatgpt",name:"ChatGPT",ver:"v1.2025.329 (Premium)",desc:"ChatGPT mobile premium.",cat:"tools",icon:"💬",badge:"PREMIUM",link:"https://vplink.in/WkRJK",rating:4.8},
-  {id:"capcutmod",name:"CapCut",ver:"v19.6.1 MOD",desc:"Video editor mod build.",cat:"video",icon:"🎥",badge:"MOD",link:"https://vplink.in/w6IiPR",rating:4.7},
+  {id:"capcutmod",name:"CapCut",ver:"v19.8.0 MOD",desc:"Video editor with premium tools unlocked.",cat:"video",icon:"🎥",badge:"MOD",link:"https://vplink.in/OXRf",rating:4.7},
   {id:"alight",name:"Alight Motion",ver:"v5.0.279 (Premium)",desc:"Motion graphics editor.",cat:"video",icon:"✨",badge:"PREMIUM",link:"https://vplink.in/bmOYo5",rating:4.6},
   {id:"capcutpro",name:"CapCut",ver:"v18.6.0 (Pro)",desc:"CapCut Pro features unlocked.",cat:"video",icon:"✂️",badge:"PRO",link:"https://vplink.in/OHDG60",rating:4.6},
   {id:"ytpremium",name:"YouTube Premium",ver:"v21.33.326 (Premium)",desc:"YouTube Premium experience.",cat:"video",icon:"▶️",badge:"PREMIUM",link:"https://vplink.in/u2i0s",rating:4.7},
@@ -91,27 +92,27 @@ function sideHTML(){
   </aside>
   <div class="popup-overlay" id="welcomePopup">
     <div class="popup-box">
-      <h3>⚠️ Disclaimer & Tutorial</h3>
-      <p><b>Disclaimer:</b> All apps/games are for educational purposes only. Use at your own risk. Always scan APKs before installing.</p>
+      <h3>Disclaimer & Tutorial</h3>
+      <p><b>Disclaimer:</b> All apps and games are provided for educational purposes only. Use them at your own risk. Always scan APK files before installing.</p>
       <p style="margin-top:10px"><b>How to download apps:</b></p>
       <ol>
-        <li>App card pe View Details → Download</li>
-        <li>Vplink ads skip karo</li>
-        <li>MediaFire se APK lo</li>
-        <li>Unknown sources allow karke install</li>
+        <li>Open an app card, then tap View Details and Download.</li>
+        <li>Skip the Vplink ads using the tutorial.</li>
+        <li>Download the APK from MediaFire.</li>
+        <li>Allow installs from unknown sources, then install.</li>
       </ol>
-      <p>Full guide Tutorials page pe hai.</p>
-      <div class="popup-btns"><button class="btn-ok" onclick="closeWelcome()">Samajh gaya ✓</button></div>
+      <p>The full guide is on the Tutorials page.</p>
+      <div class="popup-btns"><button class="btn-ok" onclick="closeWelcome()">Got it</button></div>
     </div>
   </div>
   <div class="popup-overlay" id="dlPopup">
     <div class="popup-box">
-      <h3>📥 Download Notice</h3>
-      <p>Download se pehle yaad rakho:</p>
+      <h3>Download Notice</h3>
+      <p>Before you download, remember:</p>
       <ol>
-        <li>APK ko antivirus se scan karo</li>
-        <li>Apne risk pe install karo</li>
-        <li>Educational use only</li>
+        <li>Scan the APK with an antivirus.</li>
+        <li>Install at your own risk.</li>
+        <li>For educational use only.</li>
       </ol>
       <div class="popup-btns">
         <button class="btn-cancel" onclick="closeDl()">Cancel</button>
@@ -173,7 +174,7 @@ function chatHTML(){
   return `<button class="chat-btn" onclick="toggleChat()">🤖</button>
   <div class="chat-panel" id="chatPanel">
     <div class="chat-h"><span>APK Hub Helper</span><button onclick="toggleChat()" style="background:none;border:none;color:#fff;font-size:18px">✕</button></div>
-    <div class="chat-m" id="chatMessages"><div class="msg bot">Assalam o Alaikum! Download, install ya link skip ke baare mein poochho.</div></div>
+    <div class="chat-m" id="chatMessages"><div class="msg bot">Hi. Ask me about downloads, installation, or how to skip short links.</div></div>
     <div class="chat-i"><input id="chatInput" placeholder="Type your question..." onkeydown="if(event.key==='Enter')sendChat()"><button onclick="sendChat()">➤</button></div>
   </div>`;
 }
@@ -212,7 +213,7 @@ const SYSTEM_RULES = `You are APK Hub Helper. Rules you MUST follow:
 1) Only help with: using APK Hub website, downloading listed apps via our links, Vplink skip steps, Android install steps, and general safe-use tips.
 2) NEVER explain how to create, build, mod, crack, patch, reverse-engineer, or pirate any APK/app/game.
 3) NEVER give steps for malware, keygens, paid unlock hacks, or bypassing app security.
-4) If user asks how to make mods / crack APK / unpaid premium unlock methods, refuse politely in simple Urdu+English: say this is not allowed on APK Hub, only download/install help is available.
+4) If user asks how to make mods / crack APK / unpaid premium unlock methods, refuse politely in English: say this is not allowed on APK Hub, only download and install help is available.
 5) Keep answers short and helpful.`;
 
 async function sendChat(){
@@ -222,7 +223,7 @@ async function sendChat(){
     const res=await fetch(WORKER_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text, system:SYSTEM_RULES})});
     const data=await res.json();document.getElementById('chatMessages').lastChild.remove();
     addMsg(data.reply||('Error: '+(data.error||'Problem')),'bot');
-  }catch(e){document.getElementById('chatMessages').lastChild.remove();addMsg('Network error. Internet check karo.','bot');}
+  }catch(e){document.getElementById('chatMessages').lastChild.remove();addMsg('Network error. Check your internet connection.','bot');}
 }
 
 window.addEventListener('DOMContentLoaded',()=>{
